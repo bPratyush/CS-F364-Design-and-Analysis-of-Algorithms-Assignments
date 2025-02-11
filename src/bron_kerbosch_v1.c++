@@ -4,12 +4,12 @@
 #include <algorithm>
 using namespace std;
 //Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
-void addEdge(int u,int v,vector<unordered_set<int> > &adj) {
+void addEdge(int u,int v,vector<unordered_set<int> > &adj){
     adj[u].insert(v);
     adj[v].insert(u);
 }
 
-vector<int> degeneracyOrdering(int V, const vector<unordered_set<int> > &adj) {
+vector<int> degeneracyOrdering(int V,vector<unordered_set<int> > &adj){
     vector<int>order;
     vector<int>deg(V);
     vector<unordered_set<int> >bucket(V);
@@ -34,7 +34,7 @@ vector<int> degeneracyOrdering(int V, const vector<unordered_set<int> > &adj) {
     return order;
 }
 
-void bronKerbosch2(unordered_set<int> R,unordered_set<int> P,unordered_set<int> X,const vector<unordered_set<int> > &adj) {
+void bronKerbosch2(unordered_set<int> R,unordered_set<int> P,unordered_set<int> X,vector<unordered_set<int> > &adj){
     if(P.empty()&&X.empty()){
         cout << "Maximal Clique: ";
         for(int v:R) cout << v << " ";
@@ -62,7 +62,7 @@ void bronKerbosch2(unordered_set<int> R,unordered_set<int> P,unordered_set<int> 
     }
 }
 
-void bronKerbosch3(int V,const vector<unordered_set<int> >&adj) {
+void bronKerbosch3(int V,vector<unordered_set<int> >&adj){
     vector<int> order=degeneracyOrdering(V, adj);
     unordered_set<int> P,X;
     for(int v=0;v<V;v++) P.insert(v);
