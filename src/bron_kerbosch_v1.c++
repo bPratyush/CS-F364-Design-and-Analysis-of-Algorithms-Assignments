@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include <unordered_set>
+#include <cstdlib>
 using namespace std;
 //Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
 void addEdge(int u,int v,vector<unordered_set<int> > &adj){
@@ -79,28 +82,16 @@ void bronKerbosch3(int V,vector<unordered_set<int> >&adj){
     }
 }
 
-int main() {
-    //Example Graph
-    // int V=5;
-    // vector<unordered_set<int> >adj(V);
-    // //Verified TC 1
-    // addEdge(0, 1, adj);
-    // addEdge(0, 2, adj);
-    // addEdge(1, 2, adj);
-    // addEdge(2, 3, adj);
-    // cout << "Maximal cliques in the graph:\n";
-    //Verified TC 2
-    int V=6;
-    vector<unordered_set<int> >adj(V);
-    addEdge(0, 1, adj);
-    addEdge(0, 4, adj);
-    addEdge(1, 4, adj);
-    addEdge(3, 4, adj);
-    addEdge(1, 2, adj);
-    addEdge(2, 3, adj);
-    addEdge(3, 5, adj);
-    cout << "Maximal cliques in the graph:\n";
-    //TODO: Add Another Examples for testing
+int main(int argc, char* argv[]){
+    //Input Format: First line contains number of vertices V and next lines contain edges in (u,v) format
+    ifstream infile(argv[1]);
+    int V;
+    infile >>V;
+    vector<unordered_set<int> > adj(V);
+    int u,v;
+    while (infile>>u>>v) addEdge(u,v,adj);
+    infile.close();
+    cout << "Maximal cliques in the graph:" << endl;
     bronKerbosch3(V, adj);
     return 0;
 }
