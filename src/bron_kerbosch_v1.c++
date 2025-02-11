@@ -81,13 +81,24 @@ void bronKerbosch3(int V,vector<unordered_set<int> >&adj){
 
 int main() {
     //Example Graph
-    int V=5;
+    // int V=5;
+    // vector<unordered_set<int> >adj(V);
+    // //Verified TC 1
+    // addEdge(0, 1, adj);
+    // addEdge(0, 2, adj);
+    // addEdge(1, 2, adj);
+    // addEdge(2, 3, adj);
+    // cout << "Maximal cliques in the graph:\n";
+    //Verified TC 2
+    int V=6;
     vector<unordered_set<int> >adj(V);
-    //Verified TC 1
     addEdge(0, 1, adj);
-    addEdge(0, 2, adj);
+    addEdge(0, 4, adj);
+    addEdge(1, 4, adj);
+    addEdge(3, 4, adj);
     addEdge(1, 2, adj);
     addEdge(2, 3, adj);
+    addEdge(3, 5, adj);
     cout << "Maximal cliques in the graph:\n";
     //TODO: Add Another Examples for debugging
     bronKerbosch3(V, adj);
