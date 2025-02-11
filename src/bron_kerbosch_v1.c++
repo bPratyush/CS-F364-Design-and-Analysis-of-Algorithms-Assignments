@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-#include <algorithm>
 using namespace std;
 //Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
 void addEdge(int u,int v,vector<unordered_set<int> > &adj){
