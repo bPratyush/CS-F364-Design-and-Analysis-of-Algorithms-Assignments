@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.py": "python",
+        "__hash_table": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "bitset": "cpp"
+    }
+}
