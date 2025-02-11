@@ -100,7 +100,7 @@ int main() {
     addEdge(2, 3, adj);
     addEdge(3, 5, adj);
     cout << "Maximal cliques in the graph:\n";
-    //TODO: Add Another Examples for debugging
+    //TODO: Add Another Examples for testing
     bronKerbosch3(V, adj);
     return 0;
 }
