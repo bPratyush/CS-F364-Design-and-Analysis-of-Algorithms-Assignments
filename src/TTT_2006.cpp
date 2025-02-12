@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <cstdlib>
 using namespace std;
-// Tomita, Tanata & Takahashi (2006) algorithm for finding all maximal cliques in an undirected graph
+//Tomita, Tanata & Takahashi (2006) algorithm for finding all maximal cliques in an undirected graph
 void addEdge(int u,int v,vector<unordered_set<int> > &adj){
     adj[u].insert(v);
     adj[v].insert(u);
