@@ -9,12 +9,13 @@ using namespace std;
 vector<int> Q;
 
 void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unordered_set<int> >& adj){
-    if (SUBG.empty()) {
+    if(SUBG.empty()){
         cout << "Clique: ";
         for(int v:Q) cout << v << " ";
         cout << endl;
         return;
-    } else {
+    }
+    else{
         // u := a vertex in SUBG that maximises |CAND ∩ gamma(u)|
         int u=-1;
         int maxCount=0;
