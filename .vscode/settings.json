@@ -3,6 +3,8 @@
         "*.py": "python",
         "iostream": "cpp",
         "unordered_set": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "ostream": "cpp",
+        "fstream": "cpp"
     }
 }
