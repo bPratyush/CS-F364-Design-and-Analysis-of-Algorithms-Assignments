@@ -26,8 +26,9 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unorder
         int maxCount=0;
         for(int x:SUBG){
             int cnt=0;
-            for(int y:CAND)
+            for(int y:CAND) {
                 if(adj[x].find(y)!=adj[x].end()) ++cnt;
+            }
             if(cnt>maxCount){
                 maxCount=cnt;
                 u=x;
@@ -35,7 +36,7 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unorder
         }
         // let Extu = CAND - gamma(u);
         unordered_set<int> Extu;
-        for (int v : CAND){
+        for(int v:CAND){
             if (adj[u].find(v)==adj[u].end()) Extu.insert(v);
         }
         // FINI := empty
@@ -66,7 +67,7 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unorder
             // Recompute Extu = CAND - gamma(u)
             Extu.clear();
             for (int v:CAND){
-                if (adj[u].find(v)==adj[u].end()) Extu.insert(v);
+                if(adj[u].find(v)==adj[u].end()) Extu.insert(v);
             }
         }
     }
@@ -74,11 +75,11 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unorder
 
 void CLIQUES(const vector<unordered_set<int> >& adj, int V) {
     unordered_set<int> Vset;
-    for (int i = 0; i < V; i++) Vset.insert(i);
-    EXPAND(Vset, Vset, adj);
+    for(int i=0;i<V;i++) Vset.insert(i);
+    EXPAND(Vset,Vset,adj);
 }
 
-int main(int argc, char* argv[]){
+int main(int argc,char* argv[]){
     ifstream infile(argv[1]);
     int V;
     infile >>V;
