@@ -13,7 +13,7 @@ void addEdge(int u,int v,vector<unordered_set<int> > &adj){
     adj[v].insert(u);
 }
 
-void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unordered_set<int> >& adj){
+void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,vector<unordered_set<int> >& adj){
     if(SUBG.empty()){
         cout << "Clique: ";
         for(int v:Q) cout << v << " ";
@@ -73,7 +73,7 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unorder
     }
 }
 
-void CLIQUES(const vector<unordered_set<int> >& adj, int V) {
+void CLIQUES(vector<unordered_set<int> >& adj, int V) {
     unordered_set<int> Vset;
     for(int i=0;i<V;i++) Vset.insert(i);
     EXPAND(Vset,Vset,adj);
