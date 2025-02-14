@@ -5,8 +5,13 @@
 #include <sstream>
 #include <algorithm>
 using namespace std;
-
+//Tomita, Tanata & Takahashi (2006) algorithm for finding all maximal cliques in an undirected graph
 vector<int> Q;
+
+void addEdge(int u,int v,vector<unordered_set<int> > &adj){
+    adj[u].insert(v);
+    adj[v].insert(u);
+}
 
 void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,const vector<unordered_set<int> >& adj){
     if(SUBG.empty()){
@@ -71,11 +76,6 @@ void CLIQUES(const vector<unordered_set<int> >& adj, int V) {
     unordered_set<int> Vset;
     for (int i = 0; i < V; i++) Vset.insert(i);
     EXPAND(Vset, Vset, adj);
-}
-
-void addEdge(int u,int v,vector<unordered_set<int> > &adj){
-    adj[u].insert(v);
-    adj[v].insert(u);
 }
 
 int main(int argc, char* argv[]){
