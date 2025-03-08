@@ -132,24 +132,20 @@ int main(int argc, char* argv[]) {
     iss >> V >> E;
     vector<unordered_set<int>> adj(V);
     int u, v;
-    while (infile >> u >> v) {
-        addEdge(u, v, adj);
-    }
+    while (infile >> u >> v) addEdge(u,v,adj);
     infile.close();
 
     auto start = high_resolution_clock::now();
     BronKerboschDegeneracy(adj);
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(stop - start);
+    auto duration = duration_cast<milliseconds>(stop-start);
 
     outfile << "Largest size of the clique: " << maxCliqueSize << endl;
     outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
     outfile << "Execution time (ms): " << duration.count() << endl;
     outfile << "Distribution of different size cliques:" << endl;
-    for (const auto& pair : cliqueSizeDistribution) {
-        outfile << "Size " << pair.first << ": " << pair.second << endl;
-    }
+    
+    for (const auto& pair : cliqueSizeDistribution) outfile << "Size " << pair.first << ": " << pair.second << endl;
     outfile.close();
-
     return 0;
 }
