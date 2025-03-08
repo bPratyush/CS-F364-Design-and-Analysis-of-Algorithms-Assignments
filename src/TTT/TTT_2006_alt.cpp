@@ -1,14 +1,25 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <limits>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 //Tomita, Tanata & Takahashi (2006) algorithm for finding all maximal cliques in an undirected graph
 vector<int> Q;
+int maxCliqueSize = 0;
+int totalMaximalCliques = 0;
+unordered_map<int, int> cliqueSizeDistribution;
 
-void addEdge(int u,int v,vector<unordered_set<int> > &adj){
+void addEdge(int u,int v,vector<unordered_set<int>>& adj) {
+    if (u>=adj.size()||v>=adj.size()){
+        int newSize=max(u,v)+1;
+        adj.resize(newSize);
+    }
     adj[u].insert(v);
     adj[v].insert(u);
 }
@@ -18,6 +29,10 @@ void EXPAND(unordered_set<int> SUBG,unordered_set<int> CAND,vector<unordered_set
         cout << "Clique: ";
         for(int v:Q) cout << v << " ";
         cout << endl;
+        int cliqueSize = Q.size();
+        maxCliqueSize = max(maxCliqueSize, cliqueSize);
+        totalMaximalCliques++;
+        cliqueSizeDistribution[cliqueSize]++;
         return;
     }
     else{
@@ -81,13 +96,32 @@ void CLIQUES(vector<unordered_set<int> >& adj, int V) {
 
 int main(int argc,char* argv[]){
     ifstream infile(argv[1]);
-    int V;
-    infile >>V;
-    vector<unordered_set<int> > adj(V);
-    int u,v;
-    while (infile>>u>>v) addEdge(u,v,adj);
+    ofstream outfile("output.txt");
+    string line;
+    // Skip comment lines
+    while (getline(infile, line)) {
+        if (line[0] != '#') break;
+    }
+    // Read number of vertices and edges
+    istringstream iss(line);
+    int V, E;
+    iss >> V >> E;
+    vector<unordered_set<int>> adj(V);
+    int u, v;
+    while (infile >> u >> v) addEdge(u,v,adj);
     infile.close();
-    cout << "Maximal cliques in the graph:" << endl;
-    CLIQUES(adj, V);
+
+    auto start = high_resolution_clock::now();
+    CLIQUES(adj,V);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop-start);
+
+    outfile << "Largest size of the clique: " << maxCliqueSize << endl;
+    outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
+    outfile << "Execution time (ms): " << duration.count() << endl;
+    outfile << "Distribution of different size cliques:" << endl;
+    
+    for (const auto& pair : cliqueSizeDistribution) outfile << "Size " << pair.first << ": " << pair.second << endl;
+    outfile.close();
     return 0;
 }

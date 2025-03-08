@@ -5,7 +5,9 @@
 #include <sstream>
 #include <algorithm>
 #include <limits>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 //Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
 void addEdge(int u,int v,vector<unordered_set<int>>& adj) {
@@ -33,14 +35,19 @@ unordered_set<int> setdiff(const unordered_set<int>& A,const unordered_set<int>&
     return res;
 }
 
-void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<int> X,const vector<unordered_set<int> >& adj, ofstream& outfile) {
+int maxCliqueSize = 0;
+int totalMaximalCliques = 0;
+unordered_map<int, int> cliqueSizeDistribution;
+
+void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<int> X,const vector<unordered_set<int> >& adj) {
     unordered_set<int> unionPX=P;
     //if P union X = empty then report R as a maximal clique
     unionPX.insert(X.begin(),X.end());
     if (unionPX.empty()){
-        outfile << "Maximal Clique: ";
-        for (int v:R) outfile <<v<< " ";
-        outfile << endl;
+        int cliqueSize = R.size();
+        maxCliqueSize = max(maxCliqueSize, cliqueSize);
+        totalMaximalCliques++;
+        cliqueSizeDistribution[cliqueSize]++;
         return;
     }
     //Choose a pivot u from P union X (arbitrarily).
@@ -52,7 +59,7 @@ void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<i
         unordered_set<int> newX=setintersect(X,adj[v]);
         unordered_set<int> newR=R;
         newR.insert(v);
-        BronKerboschPivot(newP, newR, newX, adj, outfile);
+        BronKerboschPivot(newP, newR, newX, adj);
         P.erase(v);
         X.insert(v);
     }
@@ -86,7 +93,7 @@ vector<int> degeneracyorder(const vector<unordered_set<int> >& adj){
     return ordering;
 }
 
-void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj, ofstream& outfile) {
+void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj) {
     int n=adj.size();
     vector<int> ordering=degeneracyorder(adj);
     vector<int> pos(n,0);
@@ -107,13 +114,28 @@ void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj, ofstream& out
         // R is initialized to {vi}
         unordered_set<int> R;
         R.insert(vi);
-        BronKerboschPivot(P, R, X, adj, outfile);
+        BronKerboschPivot(P, R, X, adj);
     }
 }
 
 int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
+    }
+
     ifstream infile(argv[1]);
+    if (!infile.is_open()) {
+        cerr << "Error opening file: " << argv[1] << endl;
+        return 1;
+    }
+
     ofstream outfile("output.txt");
+    if (!outfile.is_open()) {
+        cerr << "Error opening output file." << endl;
+        return 1;
+    }
+
     string line;
     // Skip comment lines
     while (getline(infile, line)) {
@@ -122,14 +144,42 @@ int main(int argc, char* argv[]) {
     // Read number of vertices and edges
     istringstream iss(line);
     int V, E;
-    iss >> V >> E;
+    if (!(iss >> V >> E)) {
+        cerr << "Error reading number of vertices and edges." << endl;
+        return 1;
+    }
+
     vector<unordered_set<int>> adj(V);
     int u, v;
-    while (infile >> u >> v) {
-        addEdge(u, v, adj);
-    }
+    while (infile >> u >> v) addEdge(u, v, adj);
     infile.close();
-    BronKerboschDegeneracy(adj, outfile);
+
+    // // Debug: Print the adjacency list
+    // for (int i = 0; i < adj.size(); ++i) {
+    //     cout << "Vertex " << i << ": ";
+    //     if (adj[i].empty()) {
+    //         cout << "No neighbors";
+    //     } else {
+    //         for (int neighbor : adj[i]) {
+    //             cout << neighbor << " ";
+    //         }
+    //     }
+    //     cout << endl;
+    // }
+    
+    auto start = high_resolution_clock::now();
+    BronKerboschDegeneracy(adj);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+
+    outfile << "Largest size of the clique: " << maxCliqueSize << endl;
+    outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
+    outfile << "Execution time (ms): " << duration.count() << endl;
+    outfile << "Distribution of different size cliques:" << endl;
+    
+    for (const auto& pair : cliqueSizeDistribution) {
+        outfile << "Size " << pair.first << ": " << pair.second << endl;
+    }
     outfile.close();
     return 0;
 }
