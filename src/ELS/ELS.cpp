@@ -154,18 +154,19 @@ int main(int argc, char* argv[]) {
     while (infile >> u >> v) addEdge(u, v, adj);
     infile.close();
 
-    // // Debug: Print the adjacency list
-    // for (int i = 0; i < adj.size(); ++i) {
-    //     cout << "Vertex " << i << ": ";
-    //     if (adj[i].empty()) {
-    //         cout << "No neighbors";
-    //     } else {
-    //         for (int neighbor : adj[i]) {
-    //             cout << neighbor << " ";
-    //         }
-    //     }
-    //     cout << endl;
-    // }
+    // Debug: Print the full adjacency list
+    for (int i = 0; i < adj.size(); ++i) {
+        cout << "Vertex " << i << ": ";
+        if (adj[i].empty()) {
+            cout << "No neighbors";
+        } else {
+            for (int neighbor : adj[i]) {
+                cout << neighbor << " ";
+            }
+        }
+        cout << endl;
+        cout.flush();
+    }
     
     auto start = high_resolution_clock::now();
     BronKerboschDegeneracy(adj);
