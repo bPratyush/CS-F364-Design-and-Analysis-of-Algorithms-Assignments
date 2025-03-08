@@ -177,10 +177,11 @@ int main(int argc, char* argv[]) {
     outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
     outfile << "Execution time (ms): " << duration.count() << endl;
     outfile << "Distribution of different size cliques:" << endl;
-    
-    for (const auto& pair : cliqueSizeDistribution) {
+    // Sort the distribution to ensure deterministic order
+    vector<pair<int, int>> sortedDistribution(cliqueSizeDistribution.begin(), cliqueSizeDistribution.end());
+    sort(sortedDistribution.begin(), sortedDistribution.end());
+    for (const auto& pair : sortedDistribution)
         outfile << "Size " << pair.first << ": " << pair.second << endl;
-    }
     outfile.close();
     return 0;
 }
