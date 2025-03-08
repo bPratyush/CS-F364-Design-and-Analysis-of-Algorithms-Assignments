@@ -8,7 +8,11 @@
 using namespace std;
 
 //Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
-void addEdge(int u,int v,vector<unordered_set<int> > &adj){
+void addEdge(int u,int v,vector<unordered_set<int>>& adj) {
+    if (u>=adj.size()||v>=adj.size()){
+        int newSize=max(u,v)+1;
+        adj.resize(newSize);
+    }
     adj[u].insert(v);
     adj[v].insert(u);
 }
@@ -108,13 +112,21 @@ void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj) {
 }
 
 int main(int argc, char* argv[]) {
-    //Input Format: First line contains number of vertices V and next lines contain edges in (u,v) format
     ifstream infile(argv[1]);
-    int V;
-    infile >>V;
-    vector<unordered_set<int> > adj(V);
-    int u,v;
-    while (infile>>u>>v) addEdge(u,v,adj);
+    string line;
+    // Skip comment lines
+    while (getline(infile, line)) {
+        if (line[0] != '#') break;
+    }
+    // Read number of vertices and edges
+    istringstream iss(line);
+    int V, E;
+    iss >> V >> E;
+    vector<unordered_set<int>> adj(V);
+    int u, v;
+    while (infile >> u >> v) {
+        addEdge(u, v, adj);
+    }
     infile.close();
     BronKerboschDegeneracy(adj);
     return 0;
