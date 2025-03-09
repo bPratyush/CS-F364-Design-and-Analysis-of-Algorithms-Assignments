@@ -119,23 +119,8 @@ void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
-        return 1;
-    }
-
     ifstream infile(argv[1]);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << argv[1] << endl;
-        return 1;
-    }
-
     ofstream outfile("output.txt");
-    if (!outfile.is_open()) {
-        cerr << "Error opening output file." << endl;
-        return 1;
-    }
-
     string line;
     // Skip comment lines
     while (getline(infile, line)) {
@@ -144,16 +129,10 @@ int main(int argc, char* argv[]) {
     // Read number of vertices and edges
     istringstream iss(line);
     int V, E;
-    if (!(iss >> V >> E)) {
-        cerr << "Error reading number of vertices and edges." << endl;
-        return 1;
-    }
-
     vector<unordered_set<int>> adj(V);
     int u, v;
     while (infile >> u >> v) addEdge(u, v, adj);
     infile.close();
-
     // Debug: Print the full adjacency list
     for (int i = 0; i < adj.size(); ++i) {
         cout << "Vertex " << i << ": ";
