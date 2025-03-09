@@ -88,23 +88,11 @@ void CLIQUES(vector<unordered_set<int>>& adj, int V) {
 }
 
 int main(int argc, char* argv[]) {
-    if(argc < 2){
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
-        exit(1);
-    }
-    
     ifstream infile(argv[1]);
-    if(!infile.is_open()){
-        cerr << "Error opening file " << argv[1] << endl;
-        exit(1);
-    }
-    
     ofstream outfile("output.txt");
     string line;
     vector<pair<int, int>> edgeList;
     int maxVertex = 0;
-    
-    // Read file line by line and ignore lines beginning with '#'
     while(getline(infile, line)){
         if(line.empty() || line[0] == '#')
             continue;
