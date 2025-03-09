@@ -1,5 +1,0 @@
-Largest size of the clique: 0
-Total number of maximal cliques: 1
-Execution time (ms): 0
-Distribution of different size cliques:
-Size 0: 1
