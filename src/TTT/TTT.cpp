@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <limits>
 #include <chrono>
+#include <map> // added for consistent ordering
 using namespace std;
 using namespace std::chrono;
 
@@ -14,7 +15,7 @@ using namespace std::chrono;
 vector<int> Q;
 int maxCliqueSize = 0;
 int totalMaximalCliques = 0;
-unordered_map<int, int> cliqueSizeDistribution;
+map<int, int> cliqueSizeDistribution; // modified from unordered_map<int, int>
 
 void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
     if (u >= adj.size() || v >= adj.size()) {
@@ -83,26 +84,34 @@ int main(int argc, char* argv[]) {
     ifstream infile(argv[1]);
     ofstream outfile("output.txt");
     string line;
+    // Skip comment lines
     while (getline(infile, line)) {
         if (line[0] != '#') break;
     }
+    // Read number of vertices and edges
     istringstream iss(line);
     int V, E;
-    iss >> V >> E;
+    iss >> V >> E;  // added to correctly parse V and E
     vector<unordered_set<int>> adj(V);
     int u, v;
     while (infile >> u >> v) addEdge(u, v, adj);
     infile.close();
-
-    // Debug: Print the adjacency list
+    // Debug: Print the full adjacency list with sorted neighbors for consistency
     for (int i = 0; i < adj.size(); ++i) {
         cout << "Vertex " << i << ": ";
-        for (int neighbor : adj[i]) {
-            cout << neighbor << " ";
+        if (adj[i].empty()) {
+            cout << "No neighbors";
+        } else {
+            vector<int> neighbors(adj[i].begin(), adj[i].end());
+            sort(neighbors.begin(), neighbors.end());
+            for (int neighbor : neighbors) {
+                cout << neighbor << " ";
+            }
         }
         cout << endl;
+        cout.flush();
     }
-
+    
     auto start = high_resolution_clock::now();
     CLIQUES(adj, V);
     auto stop = high_resolution_clock::now();
@@ -112,8 +121,8 @@ int main(int argc, char* argv[]) {
     outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
     outfile << "Execution time (ms): " << duration.count() << endl;
     outfile << "Distribution of different size cliques:" << endl;
-
-    for (const auto& pair : cliqueSizeDistribution) outfile << "Size " << pair.first << ": " << pair.second << endl;
+    
+    for(const auto& pair : cliqueSizeDistribution) outfile << "Size " << pair.first << ": " << pair.second << endl;
     outfile.close();
     return 0;
 }

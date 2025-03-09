@@ -1,0 +1,6 @@
+Largest size of the clique: 3
+Total number of maximal cliques: 5
+Execution time (ms): 0
+Distribution of different size cliques:
+Size 2: 4
+Size 3: 1
