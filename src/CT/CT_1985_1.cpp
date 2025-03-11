@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstdlib>
 using namespace std;
+
 //Chiba & Nishizeki (1985) algorithm for finding all maximal cliques in a graph
 vector<int> newToOld;
 
