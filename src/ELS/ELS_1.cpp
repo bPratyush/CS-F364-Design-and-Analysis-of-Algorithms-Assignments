@@ -124,6 +124,8 @@ int main(int argc, char* argv[]) {
     string line;
     vector<pair<int, int>> edgeList;
     int maxVertex = 0;
+    
+    // Parse input file, skipping comment lines.
     while(getline(infile, line)){
         if(line.empty() || line[0] == '#')
             continue;
@@ -136,12 +138,12 @@ int main(int argc, char* argv[]) {
     }
     infile.close();
     
-    // Allocate adjacency list based on the maximum vertex found
+    // Allocate adjacency list based on the maximum vertex found.
     vector<unordered_set<int>> adj(maxVertex + 1);
     for(auto &edge : edgeList)
         addEdge(edge.first, edge.second, adj);
     
-    // Debug: Print the full adjacency list with sorted neighbors for consistency
+    // Debug: Print the full adjacency list with sorted neighbors for consistency.
     for(int i = 0; i < adj.size(); ++i){
         cout << "Vertex " << i << ": ";
         if(adj[i].empty()){
@@ -157,11 +159,19 @@ int main(int argc, char* argv[]) {
         cout.flush();
     }
     
+    // Compute and output the degeneracy ordering.
+    vector<int> ordering = degeneracyorder(adj);
+    outfile << "Degeneracy Ordering: ";
+    for (int v : ordering) {
+        outfile << v << " ";
+    }
+    outfile << "\n\n";
+    
     auto start = high_resolution_clock::now();
     BronKerboschDegeneracy(adj);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-
+    
     outfile << "Largest size of the clique: " << maxCliqueSize << endl;
     outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
     outfile << "Execution time (ms): " << duration.count() << endl;
