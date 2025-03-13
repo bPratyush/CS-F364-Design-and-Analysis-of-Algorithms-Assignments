@@ -1,21 +1,23 @@
-Largest size of the clique: 17
-Total number of maximal cliques: 460185
-Execution time (ms): 41044
+Largest size of the clique: 20
+Total number of maximal cliques: 226859
+Execution time (ms): 3455
 Distribution of different size cliques:
-Size 1: 1183
-Size 2: 8655
-Size 17: 23
-Size 16: 208
-Size 15: 740
-Size 3: 13718
-Size 13: 5449
-Size 14: 2329
-Size 12: 11640
-Size 11: 21736
-Size 10: 35470
-Size 9: 54456
-Size 8: 76732
-Size 5: 48416
-Size 6: 68872
-Size 7: 83266
-Size 4: 27292
+Size 20: 6
+Size 19: 10
+Size 18: 41
+Size 16: 1178
+Size 15: 3157
+Size 17: 286
+Size 14: 7417
+Size 13: 11487
+Size 11: 17833
+Size 12: 15181
+Size 6: 22715
+Size 5: 18143
+Size 7: 25896
+Size 8: 24766
+Size 4: 13319
+Size 9: 22884
+Size 10: 21393
+Size 3: 7077
+Size 2: 14070
