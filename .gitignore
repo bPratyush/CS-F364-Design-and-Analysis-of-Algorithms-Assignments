@@ -1,4 +1,5 @@
 .qodo
+.vscode
 dataset/.DS_Store
 src/CT/as-skitter.txt
 src/CT/email-Enron.txt
