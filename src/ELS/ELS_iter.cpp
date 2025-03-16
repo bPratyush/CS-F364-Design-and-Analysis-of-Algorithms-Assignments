@@ -11,9 +11,7 @@
 using namespace std;
 using namespace std::chrono;
 
-//
 // Eppstein, Löffler & Strash (2010) algorithm for finding all maximal cliques in an undirected graph
-//
 
 void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
     if(u >= adj.size() || v >= adj.size()){
@@ -42,13 +40,11 @@ unordered_set<int> setdiff(const unordered_set<int>& A, const unordered_set<int>
     return res;
 }
 
-// Global counters for statistics:
 int maxCliqueSize = 0;
 int totalMaximalCliques = 0;
 unordered_map<int, int> cliqueSizeDistribution;
 
 // --- Iterative Bron–Kerbosch Pivot using an explicit stack ---
-// We define a frame (simulating a recursive call)
 struct Frame {
     unordered_set<int> P;
     unordered_set<int> R;
@@ -127,7 +123,7 @@ void IterativeBronKerboschPivot(const vector<unordered_set<int>>& adj,
                 st.top().X.insert(finishedCandidate);
             }
         }
-    } // end while
+    } 
 }
 
 // Compute degeneracy ordering by repeatedly removing the vertex with smallest degree.
@@ -158,8 +154,6 @@ vector<int> degeneracyorder(const vector<unordered_set<int>>& adj){
     reverse(ordering.begin(), ordering.end());
     return ordering;
 }
-
-// Use degeneracy ordering as a driver for iterative search.
 void BronKerboschDegeneracy(const vector<unordered_set<int>>& adj) {
     int n = adj.size();
     vector<int> ordering = degeneracyorder(adj);
@@ -182,7 +176,6 @@ void BronKerboschDegeneracy(const vector<unordered_set<int>>& adj) {
         }
         unordered_set<int> R;
         R.insert(v);
-        // Call the iterative version of Bron–Kerbosch pivot.
         IterativeBronKerboschPivot(adj, P, R, X);
     }
 }
@@ -213,8 +206,7 @@ int main(int argc, char* argv[]) {
     for(auto &edge : edgeList)
         addEdge(edge.first, edge.second, adj);
 
-    // (Optional) Disable debug printing for large graphs.
-    /*
+    //debug printing for large graphs.
     for (int i = 0; i < int(adj.size()); ++i) {
         cout << "Vertex " << i << ": ";
         if(adj[i].empty()){
@@ -227,7 +219,6 @@ int main(int argc, char* argv[]) {
         }
         cout << "\n";
     }
-    */
 
     auto start = high_resolution_clock::now();
     BronKerboschDegeneracy(adj);
