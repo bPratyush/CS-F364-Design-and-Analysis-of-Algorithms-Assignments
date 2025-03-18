@@ -1,9 +1,9 @@
 Graph loaded: 36692 nodes.
 Largest size of the clique: 20
-Total number of maximal cliques: 226858
-Execution time (ms): 536478
+Total number of maximal cliques: 226859
+Execution time (ms): 537002
 Distribution of different size cliques:
-Size 2: 14069
+Size 2: 14070
 Size 3: 7077
 Size 4: 13319
 Size 5: 18143
