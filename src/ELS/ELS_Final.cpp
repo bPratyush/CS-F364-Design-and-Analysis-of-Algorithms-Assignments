@@ -115,7 +115,7 @@ int main(){
     auto start = high_resolution_clock::now();
     
     // Read input file and build graph.
-    ifstream ip("as-skitter.txt");
+    ifstream ip("wiki-Vote.txt");
     if(!ip){
         cerr << "Failed to open file." << endl;
         return 1;
