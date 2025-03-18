@@ -45,9 +45,11 @@ void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<i
     unionPX.insert(X.begin(),X.end());
     if (unionPX.empty()){
         int cliqueSize = R.size();
-        maxCliqueSize = max(maxCliqueSize, cliqueSize);
-        totalMaximalCliques++;
-        cliqueSizeDistribution[cliqueSize]++;
+        if (cliqueSize > 1) {
+            maxCliqueSize = max(maxCliqueSize, cliqueSize);
+            totalMaximalCliques++;
+            cliqueSizeDistribution[cliqueSize]++;
+        }
         return;
     }
     //Choose a pivot u from P union X (arbitrarily).

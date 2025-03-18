@@ -30,9 +30,11 @@ void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
 void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_set<int>>& adj) {
     if(SUBG.empty()){
         int cliqueSize = Q.size();
-        maxCliqueSize = max(maxCliqueSize, cliqueSize);
-        totalMaximalCliques++;
-        cliqueSizeDistribution[cliqueSize]++;
+        if (cliqueSize > 1) {
+            maxCliqueSize = max(maxCliqueSize, cliqueSize);
+            totalMaximalCliques++;
+            cliqueSizeDistribution[cliqueSize]++;
+        }
         return;
     } else {
         int u = -1;
