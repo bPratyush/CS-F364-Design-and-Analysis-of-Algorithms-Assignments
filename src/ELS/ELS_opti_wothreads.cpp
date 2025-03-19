@@ -8,12 +8,10 @@
 using namespace std;
 using namespace std::chrono;
 
-// Global aggregators
 int maxCliqueSize = 0;
 long long totalMaximalCliques = 0;
-vector<int> cliqueSizeDistribution; // index = clique size; value = count
+vector<int> cliqueSizeDistribution;
 
-// Merge thread-local aggregator into globals (sequential version)
 void mergeAggregators(int localMaxClique, long long localCliqueCount, const vector<int>& localDist) {
     maxCliqueSize = max(maxCliqueSize, localMaxClique);
     totalMaximalCliques += localCliqueCount;
@@ -23,18 +21,15 @@ void mergeAggregators(int localMaxClique, long long localCliqueCount, const vect
         cliqueSizeDistribution[i] += localDist[i];
 }
 
-// Add an edge into our graph (0-indexed vertices)
 void addEdge(int u, int v, vector<vector<int>>& adj) {
     if(u >= (int)adj.size() || v >= (int)adj.size()){
         int newSize = max(u, v) + 1;
         adj.resize(newSize);
     }
-    // Since we eventually sort and deduplicate, simply push_back
     adj[u].push_back(v);
     adj[v].push_back(u);
 }
 
-// Two-pointer intersection of two sorted vectors
 vector<int> intersectVectors(const vector<int>& A, const vector<int>& B) {
     vector<int> res;
     res.reserve(min(A.size(), B.size()));
@@ -52,7 +47,6 @@ vector<int> intersectVectors(const vector<int>& A, const vector<int>& B) {
     return res;
 }
 
-// Two-pointer set difference: A \ B; both sorted.
 vector<int> diffVectors(const vector<int>& A, const vector<int>& B) {
     vector<int> res;
     res.reserve(A.size());
@@ -70,10 +64,6 @@ vector<int> diffVectors(const vector<int>& A, const vector<int>& B) {
     return res;
 }
 
-/**
- * Recursive Bron–KerboschPivot on sorted vectors.
- * P, R, X are sorted vectors of vertices.
- */
 void BronKerboschPivot(vector<int> P, vector<int> R, vector<int> X,
                          const vector<vector<int>>& adj,
                          int &localMax, long long &localCount, vector<int>& localDist) {
@@ -88,13 +78,11 @@ void BronKerboschPivot(vector<int> P, vector<int> R, vector<int> X,
         }
         return;
     }
-    // Choose a pivot from P∪X arbitrarily (here, the first element)
     vector<int> unionPX = P;
     unionPX.insert(unionPX.end(), X.begin(), X.end());
     sort(unionPX.begin(), unionPX.end());
     int bestPivot = unionPX.front();
     size_t bestDegree = 0;
-    // Use intersection count with P as pivot degree.
     for (int candidate : unionPX) {
         vector<int> common = intersectVectors(P, adj[candidate]);
         if(common.size() > bestDegree){
@@ -102,23 +90,19 @@ void BronKerboschPivot(vector<int> P, vector<int> R, vector<int> X,
             bestPivot = candidate;
         }
     }
-    // Compute P \ N(bestPivot)
     vector<int> diffP = diffVectors(P, adj[bestPivot]);
-    // For each vertex in diffP, recurse with new sets.
     for (int v : diffP) {
         vector<int> newR = R;
         newR.push_back(v);
         vector<int> newP = intersectVectors(P, adj[v]);
         vector<int> newX = intersectVectors(X, adj[v]);
         BronKerboschPivot(newP, newR, newX, adj, localMax, localCount, localDist);
-        // Remove v from P and add it to X (maintain sorted order)
         P.erase(remove(P.begin(), P.end(), v), P.end());
         X.push_back(v);
         sort(X.begin(), X.end());
     }
 }
 
-/* Compute degeneracy ordering by repeatedly removing a vertex with smallest degree */
 vector<int> degeneracyOrder(const vector<vector<int>>& adj) {
     int n = adj.size();
     vector<int> d(n);
@@ -159,7 +143,6 @@ vector<int> degeneracyOrder(const vector<vector<int>>& adj) {
     return order;
 }
 
-// Outer BronKerbosch using degeneracy ordering (sequential version)
 void BronKerboschDegeneracy(const vector<vector<int>>& adj) {
     int n = adj.size();
     vector<int> ordering = degeneracyOrder(adj);
@@ -167,23 +150,18 @@ void BronKerboschDegeneracy(const vector<vector<int>>& adj) {
     for (int i = 0; i < n; i++) {
         pos[ordering[i]] = i;
     }
-    // Reset global aggregators.
     maxCliqueSize = 0;
     totalMaximalCliques = 0;
     cliqueSizeDistribution.clear();
-
-    // Process each vertex sequentially.
     for (int i = 0; i < n; i++){
         cout << "[DEBUG] Processing node " << ordering[i]
              << " (loop index " << i << ")" << endl;
         int vi = ordering[i];
         vector<int> P, X, R;
-        // Build P: neighbors with pos > pos[vi]
         for (int w : adj[vi]) {
             if (pos[w] > pos[vi])
                 P.push_back(w);
         }
-        // Build X: neighbors with pos < pos[vi]
         for (int w : adj[vi]) {
             if (pos[w] < pos[vi])
                 X.push_back(w);
@@ -191,7 +169,6 @@ void BronKerboschDegeneracy(const vector<vector<int>>& adj) {
         sort(P.begin(), P.end());
         sort(X.begin(), X.end());
         R.push_back(vi);
-
         int localMaxClique = 0;
         long long localCliqueCount = 0;
         vector<int> localDist;
@@ -225,12 +202,9 @@ int main(int argc, char* argv[]) {
         }
     }
     infile.close();
-
-    // Build and optimize adjacency list.
     vector<vector<int>> adj(maxVertex + 1);
     for(auto &edge : edgeList)
         addEdge(edge.first, edge.second, adj);
-    // Sort and deduplicate neighbor lists.
     for(auto &neighbors : adj){
         sort(neighbors.begin(), neighbors.end());
         neighbors.erase(unique(neighbors.begin(), neighbors.end()), neighbors.end());
