@@ -1,6 +1,6 @@
 Largest size of the clique: 17
 Total number of maximal cliques: 459002
-Execution time (ms): 2190
+Execution time (ms): 2156
 Distribution of different size cliques:
 Size 2: 8655
 Size 3: 13718

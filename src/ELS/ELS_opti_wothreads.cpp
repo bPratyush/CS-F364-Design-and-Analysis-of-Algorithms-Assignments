@@ -12,15 +12,6 @@ int maxCliqueSize = 0;
 long long totalMaximalCliques = 0;
 vector<int> cliqueSizeDistribution;
 
-void mergeAggregators(int localMaxClique, long long localCliqueCount, const vector<int>& localDist) {
-    maxCliqueSize = max(maxCliqueSize, localMaxClique);
-    totalMaximalCliques += localCliqueCount;
-    if(localDist.size() > cliqueSizeDistribution.size())
-        cliqueSizeDistribution.resize(localDist.size(), 0);
-    for (size_t i = 0; i < localDist.size(); ++i)
-        cliqueSizeDistribution[i] += localDist[i];
-}
-
 void addEdge(int u, int v, vector<vector<int>>& adj) {
     if(u >= (int)adj.size() || v >= (int)adj.size()){
         int newSize = max(u, v) + 1;
@@ -173,7 +164,13 @@ void BronKerboschDegeneracy(const vector<vector<int>>& adj) {
         long long localCliqueCount = 0;
         vector<int> localDist;
         BronKerboschPivot(P, R, X, adj, localMaxClique, localCliqueCount, localDist);
-        mergeAggregators(localMaxClique, localCliqueCount, localDist);
+        // Inline mergeAggregator instead of calling separate function.
+        maxCliqueSize = max(maxCliqueSize, localMaxClique);
+        totalMaximalCliques += localCliqueCount;
+        if(localDist.size() > cliqueSizeDistribution.size())
+            cliqueSizeDistribution.resize(localDist.size(), 0);
+        for (size_t j = 0; j < localDist.size(); j++)
+            cliqueSizeDistribution[j] += localDist[j];
     }
 }
 
