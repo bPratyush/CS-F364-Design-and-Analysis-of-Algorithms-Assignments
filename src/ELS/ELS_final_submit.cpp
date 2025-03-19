@@ -99,14 +99,19 @@ void BronKerboschPivot(unordered_set<int> P, unordered_set<int> R, unordered_set
 //     return ordering;
 // }
 
-int main(){
+int main(int argc, char* argv[]){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
     auto start = high_resolution_clock::now();
-    ifstream ip("as-skitter.txt");
+    if(argc < 2){
+        cerr << "Usage: " << argv[0] << " [input file]" << endl;
+        return 1;
+    }
+    
+    ifstream ip(argv[1]);
     if(!ip){
-        cerr << "Failed to open file." << endl;
+        cerr << "Failed to open file: " << argv[1] << endl;
         return 1;
     }
     unordered_set<int> nodes;
@@ -139,7 +144,7 @@ int main(){
     }
     ip.close();
     cout << "Adjacency list created." << endl;
-    //Degenaracy ordering
+    //Degeneracy ordering
     unordered_map<int, unordered_set<int>> tempadj;
     for (int i = 0; i < adj.size(); i++){
         tempadj[i] = adj[i];
