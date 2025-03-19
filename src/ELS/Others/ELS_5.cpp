@@ -15,70 +15,75 @@ using namespace std;
 using namespace std::chrono;
 
 // ---------------- Bitset Class ----------------
+// This Bitset uses a vector<uint64_t> with inlined functions and pointer‐style loops.
 class Bitset {
 public:
     int size;
     vector<uint64_t> bits;
-    Bitset(int n, bool fill = false): size(n), bits((n + 63) / 64, fill ? ~0ULL : 0ULL) {
+    
+    Bitset(int n, bool fill = false) : size(n), bits((n + 63) / 64, fill ? ~0ULL : 0ULL) {
         if(fill && n % 64 != 0){
             bits.back() &= ((uint64_t)1 << (n % 64)) - 1;
         }
     }
-    Bitset(): size(0) {}
+    Bitset() : size(0) {}
     
-    bool empty() const {
-        for(auto b : bits)
-            if(b != 0) return false;
+    inline bool empty() const {
+        for (size_t i = 0; i < bits.size(); i++){
+            if(bits[i]) return false;
+        }
         return true;
     }
     
-    void set(int i) {
+    inline void set(int i) {
         int idx = i / 64, pos = i % 64;
         bits[idx] |= (1ULL << pos);
     }
     
-    void reset(int i) {
+    inline void reset(int i) {
         int idx = i / 64, pos = i % 64;
         bits[idx] &= ~(1ULL << pos);
     }
     
-    bool test(int i) const {
+    inline bool test(int i) const {
         int idx = i / 64, pos = i % 64;
-        return bits[idx] & (1ULL << pos);
+        return (bits[idx] >> pos) & 1ULL;
     }
     
-    // Bitwise AND (intersection)
-    Bitset intersect(const Bitset &other) const {
+    // Intersection: returns a new Bitset that is the AND of this and other.
+    inline Bitset intersect(const Bitset &other) const {
         Bitset result(size);
         for(size_t i = 0; i < bits.size(); i++){
             result.bits[i] = bits[i] & other.bits[i];
         }
         return result;
     }
-    // Bitwise difference: A \ other.
-    Bitset difference(const Bitset &other) const {
+    // Difference: returns this \ other.
+    inline Bitset difference(const Bitset &other) const {
         Bitset result(size);
         for(size_t i = 0; i < bits.size(); i++){
             result.bits[i] = bits[i] & ~(other.bits[i]);
         }
         return result;
     }
-    // OR with other (in-place union)
-    void orWith(const Bitset &other) {
+    // In-place OR with other.
+    inline void orWith(const Bitset &other) {
         for(size_t i = 0; i < bits.size(); i++){
             bits[i] |= other.bits[i];
         }
     }
-    // Count bits set.
-    int count() const {
+    // Count number of set bits.
+    inline int count() const {
         int cnt = 0;
-        for(auto b : bits)
-            cnt += __builtin_popcountll(b);
+        for (size_t i = 0; i < bits.size(); i++){
+            cnt += __builtin_popcountll(bits[i]);
+        }
         return cnt;
     }
     // Return all indices with bit set.
     vector<int> getElements() const {
         vector<int> elems;
+        elems.reserve(size / 2);
         for (int i = 0; i < size; i++){
             if(test(i))
                 elems.push_back(i);
@@ -91,7 +96,7 @@ public:
 int maxCliqueSize = 0;
 int totalMaximalCliques = 0;
 unordered_map<int, int> cliqueSizeDistribution;
-mutex clique_mutex;  // Protects updates
+mutex clique_mutex;  // protects updates
 
 // ---------------- Helper Functions ----------------
 void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
@@ -103,7 +108,8 @@ void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
     adj[v].insert(u);
 }
 
-// ---------------- Bron–Kerbosch with Bitset (In–Place backtracking) ----------------
+// ---------------- Optimized Bron–Kerbosch with Bitset ----------------
+// Uses move semantics (with explicit std::move) to avoid redundant copying.
 int choosePivot(const Bitset &unionSet, const Bitset &P, const vector<Bitset> &bitAdj) {
     int pivot = -1, maxCount = -1;
     vector<int> candidates = unionSet.getElements();
@@ -128,15 +134,14 @@ void BronKerboschPivotBit(Bitset P, Bitset R, Bitset X, const vector<Bitset>& bi
         }
         return;
     }
-    Bitset unionPX = P;
+    Bitset unionPX = std::move(P);
     unionPX.orWith(X);
     int pivot = choosePivot(unionPX, P, bitAdj);
     if(pivot == -1){
         vector<int> elems = unionPX.getElements();
         if(!elems.empty())
             pivot = elems[0];
-        else
-            return;
+        else return;
     }
     Bitset diff = P.difference(bitAdj[pivot]);
     vector<int> diffElements = diff.getElements();
@@ -145,8 +150,8 @@ void BronKerboschPivotBit(Bitset P, Bitset R, Bitset X, const vector<Bitset>& bi
         newR.set(v);
         Bitset newP = P.intersect(bitAdj[v]);
         Bitset newX = X.intersect(bitAdj[v]);
-        BronKerboschPivotBit(newP, newR, newX, bitAdj);
-        P.reset(v);
+        BronKerboschPivotBit(std::move(newP), std::move(newR), std::move(newX), bitAdj);
+        P.reset(v); // in-place removal
         X.set(v);
     }
 }
@@ -198,8 +203,7 @@ int main(){
     ip.close();
     cout << "Adjacency list created." << endl;
     
-    // --- Compute degeneracy ordering (unchanged) ---
-    // (We still use the unordered_set based method here.)
+    // ---------------- Compute Degeneracy Ordering ----------------
     unordered_map<int, unordered_set<int>> tempadj;
     for (int i = 0; i < adj.size(); i++){
         tempadj[i] = adj[i];
@@ -207,7 +211,7 @@ int main(){
     unordered_map<int, int> deg;
     unordered_map<int, unordered_set<int>> deglist;
     for (int node : nodes) {
-        int d = (node < adj.size()) ? adj[node].size() : 0;
+        int d = (node < (int)adj.size()) ? adj[node].size() : 0;
         deg[node] = d;
         deglist[d].insert(node);
     }
@@ -239,7 +243,7 @@ int main(){
     }
     cout << "Degeneracy ordering created." << endl;
     
-    // Build lookup: pos[v] is the position of v in degenlist.
+    // Build lookup: pos[v] is the index of v in degenlist.
     unordered_map<int, int> pos;
     for (int i = 0; i < degenlist.size(); i++){
         pos[degenlist[i]] = i;
@@ -253,40 +257,37 @@ int main(){
         Bitset bs(nVertices, false);
         for (int neigh : adj[i])
             bs.set(neigh);
-        bitAdj.push_back(bs);
+        bitAdj.push_back(std::move(bs));
     }
     
-    // ---------------- Process nodes in batches using a thread pool (via std::async) ----------------
-    // ---------------- Process nodes in batches using a thread pool (via std::async) ----------------
-int totalNodes = degenlist.size();
-int batchSize = 10000;  // Tune as needed.
-vector<future<void>> batchFutures;
-for (int batchStart = 0; batchStart < totalNodes; batchStart += batchSize) {
-    int batchEnd = min(batchStart + batchSize, totalNodes);
-    // Launch one async task per batch.
-    batchFutures.push_back(async(launch::async, [batchStart, batchEnd, &degenlist, &pos, &bitAdj, nVertices, &adj](){
-        for (int i = batchStart; i < batchEnd; i++){
-            int vi = degenlist[i];
-            // Create Bitset representations for P and X.
-            Bitset P(nVertices, false), X(nVertices, false), R(nVertices, false);
-            // For each neighbor of vi, use degeneracy ordering (using pos)
-            for (int neighbor : adj[vi]) { // Using original 'adj'
-                if(pos.find(neighbor) != pos.end()){
-                    if (pos[neighbor] > i)
-                        P.set(neighbor);
-                    else if (pos[neighbor] < i)
-                        X.set(neighbor);
+    // ---------------- Process nodes in batches using std::async ----------------
+    int totalNodes = degenlist.size();
+    int batchSize = 10000; // Tune as needed.
+    vector<future<void>> batchFutures;
+    for (int batchStart = 0; batchStart < totalNodes; batchStart += batchSize) {
+        int batchEnd = min(batchStart + batchSize, totalNodes);
+        batchFutures.push_back(async(launch::async, [batchStart, batchEnd, &degenlist, &pos, &bitAdj, nVertices, &adj](){
+            for (int i = batchStart; i < batchEnd; i++){
+                int vi = degenlist[i];
+                // Create Bitset representations for P, X, and R.
+                Bitset P(nVertices, false), X(nVertices, false), R(nVertices, false);
+                for (int neighbor : adj[vi]) {
+                    if(pos.find(neighbor) != pos.end()){
+                        if (pos[neighbor] > i)
+                            P.set(neighbor);
+                        else if(pos[neighbor] < i)
+                            X.set(neighbor);
+                    }
                 }
+                R.set(vi);
+                BronKerboschPivotBit(std::move(P), std::move(R), std::move(X), bitAdj);
             }
-            R.set(vi);
-            BronKerboschPivotBit(P, R, X, bitAdj);
-        }
-    }));
-}
-for(auto &f : batchFutures)
-    f.get();
+        }));
+    }
+    for(auto &f : batchFutures)
+        f.get();
     
-    // ---------------- Output results ----------------
+    // ---------------- Output Results ----------------
     ofstream op("output.txt");
     if(!op){
         cerr << "Failed to open output file." << endl;
@@ -294,9 +295,8 @@ for(auto &f : batchFutures)
     }
     op << "\nNo. of maximal cliques: " << totalMaximalCliques << "\n";
     op << "\nClique size distribution:\n";
-    for (auto &p : cliqueSizeDistribution){
+    for (auto &p : cliqueSizeDistribution)
         op << "Clique size: " << p.first << ", Frequency: " << p.second << "\n";
-    }
     op << "Maximum clique size: " << maxCliqueSize << "\n";
     op.close();
     

@@ -41,7 +41,6 @@ unordered_map<int, int> cliqueSizeDistribution;
 
 void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<int> X,const vector<unordered_set<int> >& adj) {
     unordered_set<int> unionPX=P;
-    //if P union X = empty then report R as a maximal clique
     unionPX.insert(X.begin(),X.end());
     if (unionPX.empty()){
         int cliqueSize = R.size();
@@ -52,9 +51,7 @@ void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<i
         }
         return;
     }
-    //Choose a pivot u from P union X (arbitrarily).
     int u = *unionPX.begin();
-    //For each vertex v belonging to P \ gamma(u)
     unordered_set<int> diff=setdiff(P,adj[u]);
     for(int v:diff){
         unordered_set<int> newP=setintersect(P,adj[v]);
@@ -67,8 +64,6 @@ void BronKerboschPivot(unordered_set<int> P,unordered_set<int> R,unordered_set<i
     }
 }
 
-/*Degeneracy ordering, can be computed by a simple greedy strategy of repeatedly removing
-a vertex with smallest degree (and its incident edges) from the graph until it is empty*/
 vector<int> degeneracyorder(const vector<unordered_set<int> >& adj){
     int n=adj.size();
     vector<bool> used(n,false);
@@ -100,20 +95,16 @@ void BronKerboschDegeneracy(const vector<unordered_set<int> >&adj) {
     vector<int> ordering=degeneracyorder(adj);
     vector<int> pos(n,0);
     for(int i=0;i<n;i++) pos[ordering[i]] = i;
-    // Process each vertex in the degeneracy ordering.
     for (int i=0;i<n;i++) {
         int vi=ordering[i];
-        // P <- gamma(vi) intersection {vi+1, ..., vn-1}
         unordered_set<int> P;
         for(int w:adj[vi]){
             if(pos[w]>pos[vi]) P.insert(w);
         }
-        // X <- gamma(vi) intersection {v0, ..., vi-1}
         unordered_set<int> X;
         for(int w:adj[vi]){
             if(pos[w]<pos[vi]) X.insert(w);
         }
-        // R is initialized to {vi}
         unordered_set<int> R;
         R.insert(vi);
         BronKerboschPivot(P, R, X, adj);
@@ -138,26 +129,9 @@ int main(int argc, char* argv[]) {
     }
     infile.close();
     
-    // Allocate adjacency list based on the maximum vertex found
     vector<unordered_set<int>> adj(maxVertex + 1);
     for(auto &edge : edgeList)
         addEdge(edge.first, edge.second, adj);
-    
-    // Debug: Print the full adjacency list with sorted neighbors for consistency
-    for(int i = 0; i < adj.size(); ++i){
-        cout << "Vertex " << i << ": ";
-        if(adj[i].empty()){
-            cout << "No neighbors";
-        } else {
-            vector<int> neighbors(adj[i].begin(), adj[i].end());
-            sort(neighbors.begin(), neighbors.end());
-            for(int neighbor : neighbors){
-                cout << neighbor << " ";
-            }
-        }
-        cout << endl;
-        cout.flush();
-    }
     
     auto start = high_resolution_clock::now();
     BronKerboschDegeneracy(adj);
