@@ -1,0 +1,22 @@
+No. of maximal cliques: 459002
+Number of nodes: 7115
+No. of elements in degeneracy ordering: 7115
+Time taken: 10413 milliseconds
+Clique size distribution:
+Clique size: 17, Frequency: 23
+Clique size: 15, Frequency: 740
+Clique size: 16, Frequency: 208
+Clique size: 14, Frequency: 2329
+Clique size: 13, Frequency: 5449
+Clique size: 12, Frequency: 11640
+Clique size: 11, Frequency: 21736
+Clique size: 10, Frequency: 35470
+Clique size: 9, Frequency: 54456
+Clique size: 8, Frequency: 76732
+Clique size: 5, Frequency: 48416
+Clique size: 6, Frequency: 68872
+Clique size: 4, Frequency: 27292
+Clique size: 3, Frequency: 13718
+Clique size: 7, Frequency: 83266
+Clique size: 2, Frequency: 8655
+Maximum clique size: 17
