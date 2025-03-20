@@ -7,30 +7,55 @@
 #include <algorithm>
 #include <limits>
 #include <chrono>
-#include <map> // for consistent ordering
+#include <map>
+#include <thread>
 using namespace std;
 using namespace std::chrono;
 
-// Tomita, Tanata & Takahashi (2006) algorithm for finding all maximal cliques in an undirected graph
-vector<int> Q;
 int maxCliqueSize = 0;
 int totalMaximalCliques = 0;
 map<int, int> cliqueSizeDistribution;
+mutex clique_mutex;  // protects updates below
 
 void addEdge(int u, int v, vector<unordered_set<int>>& adj) {
     if(u >= adj.size() || v >= adj.size()){
         int newSize = max(u, v) + 1;
         adj.resize(newSize);
     }
-    // Treat edge as undirected
     adj[u].insert(v);
     adj[v].insert(u);
 }
 
-void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_set<int>>& adj) {
+unordered_set<int> setintersect(const unordered_set<int>& A, const unordered_set<int>& B) {
+    unordered_set<int> res;
+    for (int a : A) {
+        if(B.find(a) != B.end())
+            res.insert(a);
+    }
+    return res;
+}
+
+unordered_set<int> setdiff(const unordered_set<int>& A, const unordered_set<int>& B) {
+    unordered_set<int> res;
+    for (int a : A) {
+        if(B.find(a) == B.end())
+            res.insert(a);
+    }
+    return res;
+}
+
+//
+// EXPAND: same as TTT algorithm but now Q (the current clique) is passed as a parameter.
+// A recursion depth parameter is added; if depth is below THRESHOLD, recursive calls are spawned in parallel.
+// (You may adjust THRESHOLD as needed.)
+//
+const int THRESHOLD = 2;  // control thread spawn depth
+
+void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_set<int>>& adj, vector<int> Q, int depth = 0) {
     if(SUBG.empty()){
         int cliqueSize = Q.size();
-        if (cliqueSize > 1) {
+        if(cliqueSize > 1) {
+            lock_guard<mutex> lock(clique_mutex);
             maxCliqueSize = max(maxCliqueSize, cliqueSize);
             totalMaximalCliques++;
             cliqueSizeDistribution[cliqueSize]++;
@@ -45,7 +70,7 @@ void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_s
                 if(adj[x].find(y) != adj[x].end())
                     ++cnt;
             }
-            if(cnt > maxCount){
+            if(cnt > maxCount) {
                 maxCount = cnt;
                 u = x;
             }
@@ -55,7 +80,8 @@ void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_s
             if(adj[u].find(v) == adj[u].end())
                 Extu.insert(v);
         }
-        unordered_set<int> FINI;
+        unordered_set<int> FINI;        
+        vector<thread> threads;
         while(!Extu.empty()){
             int q = *Extu.begin();
             Q.push_back(q);
@@ -69,7 +95,11 @@ void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_s
                 if(adj[q].find(v) != adj[q].end())
                     CANDq.insert(v);
             }
-            EXPAND(SUBGq, CANDq, adj);
+            if(depth < THRESHOLD) {
+                threads.emplace_back(EXPAND, SUBGq, CANDq, ref(adj), Q, depth+1);
+            } else {
+                EXPAND(SUBGq, CANDq, adj, Q, depth+1);
+            }
             CAND.erase(q);
             FINI.insert(q);
             Q.pop_back();
@@ -79,6 +109,8 @@ void EXPAND(unordered_set<int> SUBG, unordered_set<int> CAND, vector<unordered_s
                     Extu.insert(v);
             }
         }
+        for(auto &thr : threads)
+            thr.join();
     }
 }
 
@@ -86,17 +118,25 @@ void CLIQUES(vector<unordered_set<int>>& adj, int V) {
     unordered_set<int> Vset;
     for(int i = 0; i < V; i++)
         Vset.insert(i);
-    EXPAND(Vset, Vset, adj);
+    vector<int> Q;  // initially empty
+    EXPAND(Vset, Vset, adj, Q, 0);
 }
 
 int main(int argc, char* argv[]) {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    if(argc < 2) {
+        cerr << "Usage: " << argv[0] << " input_file" << endl;
+        return 1;
+    }
     ifstream infile(argv[1]);
     ofstream outfile("output.txt");
     string line;
-    vector<pair<int, int>> edgeList;
+    vector<pair<int,int>> edgeList;
     int maxVertex = 0;
     while(getline(infile, line)){
-        if(line.empty() || line[0] == '#')
+        if(line.empty() || line[0]=='#')
             continue;
         istringstream iss(line);
         int u, v;
@@ -106,13 +146,10 @@ int main(int argc, char* argv[]) {
         }
     }
     infile.close();
-    
-    // Allocate adjacency list based on the maximum vertex found
     vector<unordered_set<int>> adj(maxVertex + 1);
     for(auto &edge : edgeList)
         addEdge(edge.first, edge.second, adj);
-    
-    // Debug: Print the full adjacency list with sorted neighbors for consistency
+    // Print adjacency list (unchanged)
     for(int i = 0; i < adj.size(); ++i){
         cout << "Vertex " << i << ": ";
         if(adj[i].empty()){
@@ -125,23 +162,18 @@ int main(int argc, char* argv[]) {
             }
         }
         cout << endl;
-        cout.flush();
     }
     
     auto start = high_resolution_clock::now();
-    // Use maxVertex+1 as the vertex count
     CLIQUES(adj, maxVertex + 1);
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-
     outfile << "Largest size of the clique: " << maxCliqueSize << endl;
     outfile << "Total number of maximal cliques: " << totalMaximalCliques << endl;
     outfile << "Execution time (ms): " << duration.count() << endl;
     outfile << "Distribution of different size cliques:" << endl;
-    
     for(const auto& pair : cliqueSizeDistribution)
         outfile << "Size " << pair.first << ": " << pair.second << endl;
     outfile.close();
-    
     return 0;
 }
