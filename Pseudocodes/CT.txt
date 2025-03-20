@@ -61,9 +61,4 @@ procedure CLIQUE;
                                 do begin S[i]:=0 and T[i]:=0 end;
                             C:={1}
                             UPDATE(2,C)
-                    end {of CLIQUE};
-
-
-            
-                            
-                        
+                    end {of CLIQUE};                     
