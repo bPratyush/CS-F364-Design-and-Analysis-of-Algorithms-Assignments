@@ -270,7 +270,7 @@ while(stidx < degreeIndex.size() && degreeIndex[stidx].first == 0) {
     auto duration = duration_cast<milliseconds>(stopTime - startTime).count();
     ofstream outfile("output.txt");
     if (!outfile) {
-        cerr << "Error: Unable to open output_3.txt for writing\n";
+        cerr << "Error: Unable to open outputx.txt for writing\n";
         return 1;
     }
     outfile << "Largest size of a clique: " << maxCliqueSize << "\n";
