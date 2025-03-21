@@ -1,17 +1,15 @@
 #include <iostream>
-#include <fstream>
 #include <set>
 #include <vector>
-#include <map>
 #include <algorithm>
+#include <map>
 #include <chrono>
-#include <sstream>
 
 using namespace std;
 using namespace std::chrono;
 
 int n; // Number of vertices
-vector< set<int> > G; // Adjacency list for the undirected graph
+vector< set<int> > G; // Graph adjacency list
 
 // Global statistics
 long long total_maximal_cliques = 0;
@@ -38,8 +36,8 @@ bool isMaximal(const set<int>& C) {
 // Process a maximal clique
 void processClique(const set<int>& C) {
     if (!isMaximal(C)) return; // Ensure only maximal cliques are counted
+
     int size = C.size();
-    if (size < 2) return;
     total_maximal_cliques++;
     largest_clique_size = max(largest_clique_size, size);
     clique_distribution[size]++;
@@ -75,51 +73,22 @@ void CLIQUE() {
     set<int> emptySet;
     set<int> allVertices;
     for (int i = 1; i <= n; i++) {
-        if (!G[i].empty()) { // Only consider nodes with edges
-            allVertices.insert(i);
-        }
+        allVertices.insert(i);
     }
     findCliques(emptySet, allVertices);
 }
 
-// Read input file and construct the undirected graph
-void loadGraph(const string& filename) {
-    ifstream file(filename);
-    if (!file.is_open()) {
-        cerr << "Error: Unable to open file " << filename << endl;
-        exit(1);
-    }
-
-    string line;
-    set<int> nodes;
-
-    // Read edges
-    while (getline(file, line)) {
-        if (line[0] == '#') continue; // Ignore comments
-        stringstream ss(line);
-        int u, v;
-        if (ss >> u >> v) {
-            G[u].insert(v);
-            G[v].insert(u); // Convert to undirected
-            nodes.insert(u);
-            nodes.insert(v);
-        }
-    }
-
-    file.close();
-
-    n = nodes.size(); // Set number of vertices
-    cout << "Graph loaded: " << n << " nodes." << endl;
-}
-
 // Main function
 int main() {
-    string filename = "/Users/bpratyush/Documents/GitHub/CS-F364-Design-and-Analysis-of-Algorithms-Assignments/src/CT/wiki-Vote.txt";
-    
-    // Allocate large graph adjacency list
-    G.assign(40000, set<int>()); // Slightly larger than 7115 to handle index shifts
+    n = 5;
+    G.assign(n + 1, set<int>());
 
-    loadGraph(filename);
+    // Graph input (edges)
+    G[1] = {2, 3};
+    G[2] = {1, 3,4};
+    G[3] = {1,2,5};
+    G[4] = {5};
+    G[5] = {4};
 
     auto start = high_resolution_clock::now();
     CLIQUE();
