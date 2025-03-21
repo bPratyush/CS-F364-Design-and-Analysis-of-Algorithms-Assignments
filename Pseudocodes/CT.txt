@@ -34,11 +34,9 @@ procedure CLIQUE;
                         {case S(y)=0}
 7:                      if(C intersection N(i) not empty)
                             then for each vertex y not belonging to C union {i} such that y<i, T[y]=|C intersection N(i)| and S[y]=0
-                            do begin
                             {access y from the adjacency list of a vertex in C intersection N(i)}
-                                    if jp < y then FLAG:=false; {C is not lexico largest}
-                            end;
-                            else if jp < i-1 then FLAG:=false; {C is not lexico largest}
+                                    do if jp < y then FLAG:=false; {C is not lexico largest}
+                                    else if jp < i-1 then FLAG:=false; {C is not lexico largest}
                             {reinitialise S and T}
 8:                      for each vertex x belonging C intersection N(i)
                             do for each vertex y belonging N(x)-C-{i}
@@ -63,4 +61,4 @@ procedure CLIQUE;
                                 do begin S[i]:=0 and T[i]:=0 end;
                             C:={1}
                             UPDATE(2,C)
-                    end {of CLIQUE};
+                    end {of CLIQUE};                     
