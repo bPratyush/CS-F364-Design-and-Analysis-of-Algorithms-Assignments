@@ -54,19 +54,13 @@ The source codes for all algorithms store results in ```output.txt``` file
 
 ## Contributors
 
-- Pratyush Bindal (2022A7PS0119H)
+```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of Eppstein, Löffler & Strash (2010) and Tomita, Tanata & Takahashi (2006) algorithms. He also contributed in optimising Chiba and Nishizeki (1985) algorithm and worked upon preparing the Readme file and ensured coordination among the group members.
 
-Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of Eppstein, Löffler & Strash (2010) and Tomita, Tanata & Takahashi (2006) algorithms. He also contributed in optimising Chiba and Nishizeki (1985) algorithm and worked upon preparing the Readme file and ensured coordination among the group members.
+```Kalash Bhattad (2022A7PS0065H)```: Kalash worked on the implementation of Chiba & Nishizeki (1985) algorithm, extensively contributed to the final project report, and wrote the introduction along with detailed explanations of two algorithms including the english description, source code implementation walkthrough, relevant results and in-depth analysis.
 
-- Kalash Bhattad (2022A7PS0065H)
-Kalash worked on the implementation of Chiba & Nishizeki (1985) algorithm, extensively contributed to the final project report, and wrote the introduction along with detailed explanations of two algorithms including the english description, source code implementation walkthrough, relevant results and in-depth analysis.
+```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey did a comprehensive walkthrough of Tomita, Tanata & Takahashi (2006) algorithm and did a detailed comparative analysis of all the three algorithms. He contributed in implementation of Chiba and Nishizeki (1985) algorithm. He also listed key findings from maximal cliques in graph theory and applications of maximal cliques in real life scenarios.
 
-- RVS Aashrey Kumar (2022A7PS0160H)
-Aashrey did a comprehensive walkthrough of Tomita, Tanata & Takahashi (2006) algorithm and did a detailed comparative analysis of all the three algorithms. He contributed in implementation of Chiba and Nishizeki (1985) algorithm. He also listed key findings from maximal cliques in graph theory and applications of maximal cliques in real life scenarios.
+```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh extensively worked on the website ensuring it to be fully functional and updated it with the source codes, visualisation and presentation of obtained results, background and theoretical ideas about the algorithms from the papers. He also did a comprehensive walkthrough of Eppstein, Löffler & Strash (2010) algorithm by preparing a report.
 
-- Venkata Saketh Dakuri (2022A7PS0056H)
-Saketh extensively worked on the website ensuring it to be fully functional and updated it with the source codes, visualisation and presentation of obtained results, background and theoretical ideas about the algorithms from the papers. He also did a comprehensive walkthrough of Eppstein, Löffler & Strash (2010) algorithm by preparing a report.
-
-- Kavya Ganatra (2022A7PS0057H)
-Kavya did a detailed analysis of Chiba & Nishizeki (1985) algorithm by preparing a report and also contributed in its source code implementation. He also extensively contributed to the final project report including relevant results, key findings and in-depth analysis of the algorithm.
+```Kavya Ganatra (2022A7PS0057H)```: Kavya did a detailed analysis of Chiba & Nishizeki (1985) algorithm by preparing a report and also contributed in its source code implementation. He also extensively contributed to the final project report including relevant results, key findings and in-depth analysis of the algorithm.
 
