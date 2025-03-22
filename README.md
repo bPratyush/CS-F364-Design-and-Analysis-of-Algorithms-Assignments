@@ -36,7 +36,7 @@ sudo ./src t1.txt
 ```
 After running the command, enter your login password when prompted.  
 
-t1.txt represents the dataset file in ```.txt``` format
+```t1.txt``` represents the dataset file in ```.txt``` format
 
 ### Execution
 For all other algorithms execution, either continue execution with increased stack space or run the following command
