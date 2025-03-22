@@ -277,7 +277,7 @@ while(stidx < degreeIndex.size() && degreeIndex[stidx].first == 0) {
     outfile << "Total number of maximal cliques: " << numCliques << "\n";
     outfile << "Execution time (ms): " << duration << "\n";
     outfile << "Distribution of clique sizes:\n";
-    for (int i = 1; i <= maxCliqueSize; ++i) {
+    for (int i = 2; i <= maxCliqueSize; ++i) {
         int countVal = (i < (int)cliqueSizeCount.size()) ? cliqueSizeCount[i] : 0;
         outfile << "Size " << i << ": " << countVal << "\n";
     }

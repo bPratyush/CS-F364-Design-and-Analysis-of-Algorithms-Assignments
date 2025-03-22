@@ -30,7 +30,7 @@ static bool FLAG         = true;
 // ------------------------------------------------------------
 // Updates maxCliqueSize and ensures cliqueSizeCount has enough size
 // ------------------------------------------------------------
-static inline void ensureCliqueSize(int sz) {
+void ensureCliqueSize(int sz) {
     if (sz > maxCliqueSize)
         maxCliqueSize = sz;
     if ((int)cliqueSizeCount.size() <= sz)
@@ -40,7 +40,7 @@ static inline void ensureCliqueSize(int sz) {
 // ------------------------------------------------------------
 // Return maximum element in clique C (or -1 if empty)
 // ------------------------------------------------------------
-static inline int getMax(const unordered_set<int>& C) {
+int getMax(const unordered_set<int>& C) {
     int mx = -1;
     for (int x : C)
         if (x > mx)
@@ -51,7 +51,7 @@ static inline int getMax(const unordered_set<int>& C) {
 // ------------------------------------------------------------
 // Record clique C.
 // Rather than storing the clique, simply count it.
-static inline void recordClique(const unordered_set<int>& C) {
+void recordClique(const unordered_set<int>& C) {
     // Convert to sorted vector to determine clique size.
     vector<int> cliqueVec;
     cliqueVec.reserve(C.size());
@@ -66,7 +66,7 @@ static inline void recordClique(const unordered_set<int>& C) {
     cout << "[DEBUG] Total cliques so far: " << numCliques << endl;
 }
  
-static void UPDATE(int i, unordered_set<int>& C) {
+void UPDATE(int i, unordered_set<int>& C) {
     // Enforce canonical ordering.
     if (!C.empty()) {
         int m = getMax(C);
