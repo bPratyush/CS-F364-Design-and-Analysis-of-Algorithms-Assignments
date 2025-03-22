@@ -41,7 +41,7 @@ For all other algorithms execution, either continue execution with increased sta
 ```bash
 ./src t1.txt
 ```
-t1.txt represents the dataset file in ```.txt``` format
+```t1.txt``` represents the dataset file in ```.txt``` format
 
 ### Output File
 
