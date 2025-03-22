@@ -13,6 +13,8 @@
 using namespace std;
 using namespace chrono;
 
+// Chiba and Nishizeki (1985) algorithm for finding all maximal cliques in an undirected graph
+
 static vector<int> T_, S_;
 static vector<int> cliqueSizeCount;
 static int numCliques = 0;
