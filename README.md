@@ -18,12 +18,12 @@ All datasets are provided in ```.txt``` format. No extensive preprocessing has b
 ## Execution Instruction
 - Ensure the source code and datasets are in the same directory.
 - We compiled all source codes on ```clang++``` compiler using optimisation level 3 (```O3```) and C++ version 17.
+- Kindly clear the input buffer and allocated recursion stack space before proceeding with the next input
 - All executions were performed on a 2020 MacBook Pro running MacOS Sequoia 15.3.2 with 8GB of RAM and 8-Core Apple ARM M2 CPU
-- Kindly clear the input buffer and clear allocated recursion stack space before proceeding with the next input
-- The codes written have been supported and verified for Linux and MacOS Operating Systems
+- The codes written have been supported and verified for Linux Ubuntu distribution and MacOS Operating Systems
 
 ### Compilation
-For compiling src.cpp stored in dir directory, run the following command
+For compiling ```src.cpp``` stored in dir directory, run the following command
  ```bash
 clang++ -O3 -std=c++17 dir/src.cpp -o src
 ```
@@ -60,3 +60,4 @@ The source codes for all algorithms store results in ```output.txt``` file
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh extensively worked on the website ensuring it to be fully functional and updated it with the source codes, visualisation and presentation of obtained results, background and theoretical ideas about the algorithms from the papers. He also did a comprehensive walkthrough of Eppstein, Löffler & Strash (2010) algorithm by preparing a report.
 
 - ```Kavya Ganatra (2022A7PS0057H)```: Kavya did a detailed analysis of Chiba & Nishizeki (1985) algorithm by preparing a report and also contributed in its source code implementation. He also extensively contributed to the final project report including relevant results, key findings and in-depth analysis of the algorithm.
+
