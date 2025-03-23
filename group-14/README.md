@@ -61,5 +61,5 @@ The source codes for all algorithms store results in ```output.txt``` file
 
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh extensively worked on the website ensuring it to be fully functional and updated it with the source codes, visualisation and presentation of obtained results, background and theoretical ideas about the algorithms from the papers. He also did a comprehensive walkthrough of Eppstein, Löffler & Strash (2010) algorithm by preparing a report.
 
-- ```Kavya Ganatra (2022A7PS0057H)```: Kavya did a detailed analysis of Chiba & Nishizeki (1985) algorithm by preparing a report and also contributed in its source code implementation. He also extensively contributed to the final project report including relevant results, key findings and in-depth analysis of the algorithm.
+- ```Kavya Ganatra (2022A7PS0057H)```: Kavya worked extensively on the Chiba & Nishizeki (1985) algorithm, exploring optimization techniques to enhance its efficiency without altering the core logic. He also prepared a detailed explanation covering the algorithm’s concepts, code implementation, and the optimizations applied. In addition, Kavya played a key role in drafting and refining the final project report.
 
