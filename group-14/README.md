@@ -24,7 +24,7 @@ All datasets are provided in ```.txt``` format. No extensive preprocessing has b
 - The codes written have been supported and verified for Linux Ubuntu distribution and MacOS Operating Systems
 
 ### Compilation
-For compiling ```src.cpp``` stored in dir directory, run the following command
+For compiling ```src.cpp``` stored in ```dir``` directory, run the following command
  ```bash
 clang++ -O3 -std=c++17 dir/src.cpp -o src
 ```
@@ -43,7 +43,7 @@ For all other algorithms execution, either continue execution with increased sta
 ```bash
 ./src t1.txt
 ```
-t1.txt represents the dataset file in ```.txt``` format
+```t1.txt``` represents the dataset file in ```.txt``` format
 
 ### Output File
 
