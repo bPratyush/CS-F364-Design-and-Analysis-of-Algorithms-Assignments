@@ -30,7 +30,7 @@ clang++ -O3 -std=c++17 dir/src.cpp -o src
 ```
 
 ### Execution with Increased Stack Space
-For source codes requiring large recursion stack space such as Chiba & Nishizeki (1985) algorithm and optimised Tomita, Tanata & Takahashi (2006) algorithm, run the following command
+For source codes requiring large recursion stack space such as Chiba & Nishizeki (1985) algorithm and optimised Tomita, Tanata & Takahashi (2006) algorithm, execute the code with root privileges for increasing the default stack space of the machine by running the following command
 ```bash
 sudo ./src t1.txt
 ```
