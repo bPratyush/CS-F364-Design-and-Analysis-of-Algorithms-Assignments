@@ -46,7 +46,7 @@ The Algorithm 4 (CoreExact Algorithm) results are stored in ```algo-4-results.tx
 
 - ```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of the Exact Algorithm mentioned in the paper. He also worked upon preparing the Readme file, the final report and ensured coordination among the group members.
 
-- ```Kalash Bhattad (2022A7PS0065H)```: 
+- ```Kalash Bhattad (2022A7PS0065H)```: Kalash was deeply involved in the extensive implementation of the Exact algorithm, meticulously resolving bugs and ensuring its correctness. He also carefully prepared the AS-733 dataset and contributed meaningfully to the preparation of the final report.
 
 - ```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey has conducted comprehensive implementation of the CoreExact Algorithm as mentioned in the paper. He has also worked on curating relevant datasets(AS-733,NetScience and CA-HepTh), collecting results and benchmarking with the paper's results.
 
