@@ -46,7 +46,7 @@ The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 ## Contributors
 
-- ```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of the Exact Algorithm mentioned in the paper. He worked upon preparing the Netscience dataset and the README file. He also contributed in the final report and ensured coordination among the group members.
+- ```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough of the Exact Algorithm mentioned in the paper. He worked upon preparing the Netscience dataset and the README file. He also contributed in the final report and ensured coordination among the group members.
 
 - ```Kalash Bhattad (2022A7PS0065H)```: Kalash was deeply involved in the extensive implementation of the Exact algorithm, meticulously resolving bugs and ensuring its correctness. He also carefully prepared the AS-733 dataset and contributed meaningfully to the preparation of the final report.
 
@@ -54,4 +54,4 @@ The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh played a key role in designing and preparing the website for presenting the source code and results. He also significantly contributed to refining and optimizing both algorithms, ensuring improved efficiency and clarity.
 
-- ```Kavya Ganatra (2022A7PS0057H)```: Kavya made significant contributions to the project report and conducted a comprehensive theoretical study of the assigned research paper, strengthening the overall depth and quality of the work.
+- ```Kavya Ganatra (2022A7PS0057H)```: 
