@@ -7,7 +7,7 @@ The repository contains source code for the two algorithms implemented mentioned
 
 ## Webpage Link
 
-[DAA Assignment 2](https://glittery-croissant-0480a0.netlify.app/)
+[DAA Assignment II Website](https://glittery-croissant-0480a0.netlify.app/)
 
 
 ## Dataset Preparation
