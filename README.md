@@ -29,7 +29,7 @@ For compiling ```src.cpp``` stored in ```dir``` directory with C++ version 17 an
 clang++ -std=c++17 dir/src.cpp -o src
 ```
 - For using ```g++``` compiler, replace ```clang++``` with ```g++```
-- For changing C++ version, change the value in ```-std=c++17``` or remove for default version execution present in the system
+- For changing C++ version, either change the value in ```-std=c++17``` or remove for default version execution present in the system
 
 ### Execution
 For execution, run the following command:
