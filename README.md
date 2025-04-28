@@ -30,7 +30,7 @@ clang++ -std=c++17 dir/src.cpp -o src
 ```
 
 ### Execution
-For Algorithm 1 execution, run the following command:
+For execution, run the following command:
 ```bash
 ./src t1.txt h
 ```
