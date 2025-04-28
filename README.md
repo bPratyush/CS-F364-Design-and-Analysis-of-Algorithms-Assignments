@@ -18,7 +18,7 @@ All datasets are provided in ```.txt``` format. No extensive preprocessing has b
 
 ## Execution Instruction
 - Ensure the source code and datasets are in the same directory.
-- We compiled all source codes on ```clang++``` compiler and using C++ version 17 or C++ version 14.
+- We compiled all source codes on ```clang++``` or ```g++``` compiler and using C++ version 17 or C++ version 14.
 - Kindly clear the input buffer and allocated recursion stack space before proceeding with the next input or source code to ensure that a segmentation fault does not occur
 - All executions were performed on a 2020 MacBook Pro running MacOS Sequoia 15.3.2 with 8GB of RAM and 8-core Apple ARM M2 CPU or with a MacBook Pro having a 10-core Apple M1 Pro CPU and 16 GB of RAM
 - The codes written have been supported and verified for Linux Ubuntu distribution and MacOS Operating Systems
@@ -44,11 +44,11 @@ The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 ## Contributors
 
-- ```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of the Exact Algorithm mentioned in the paper. He worked upon preparing the Netscience dataset and the Readme file. He also contributed in the final report and ensured coordination among the group members.
+- ```Pratyush Bindal (2022A7PS0119H)```: Pratyush did a comprehensive walkthrough and worked on the source code implementation as well as optimisation of the Exact Algorithm mentioned in the paper. He worked upon preparing the Netscience dataset and the README file. He also contributed in the final report and ensured coordination among the group members.
 
 - ```Kalash Bhattad (2022A7PS0065H)```: Kalash was deeply involved in the extensive implementation of the Exact algorithm, meticulously resolving bugs and ensuring its correctness. He also carefully prepared the AS-733 dataset and contributed meaningfully to the preparation of the final report.
 
-- ```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey has conducted comprehensive implementation of the CoreExact Algorithm as mentioned in the paper. He has also worked on curating relevant datasets (AS-733, NetScience and CA-HepTh), collecting results and benchmarking with the paper's results.
+- ```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey has conducted comprehensive implementation of the CoreExact Algorithm as mentioned in the paper. He has also worked on curating relevant datasets (AS-733, NetScience and CA-HepTh), collecting results and benchmarking with the paper's results. He has also assisted in the preparation of the README file.
 
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh played a key role in designing and preparing the website for presenting the source code and results. He also significantly contributed to refining and optimizing both algorithms, ensuring improved efficiency and clarity.
 
