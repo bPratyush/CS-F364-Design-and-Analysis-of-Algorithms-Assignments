@@ -1,3 +1,0 @@
-Densest subgraph for h=2 containing 20 nodes
-Total 2-cliques detected: 188
-Computed 2-clique density: 9.4

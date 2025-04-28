@@ -1,3 +1,0 @@
-Clique-Dense Subgraph (h=5) with 20 vertices
-Number of 5-cliques: 15504
-5-clique density: 775.2
