@@ -1,0 +1,23 @@
+------------------- DENSE SUBGRAPH ANALYSIS -------------------
+Input: netscience.txt
+Method: Clique-based density algorithm
+
+PARAMETERS:
+- h value: 5
+- Original vertices: 1589
+- Original edges: 2742
+- Original cliques: 15119
+RESULTS:
+- Subgraph vertices: 20 (1.26% of original)
+- Subgraph cliques: 14008 (92.65% of original)
+- Clique density: 700.40
+- Density improvement: 73.61x
+- Average clique degree: 3502.00
+
+PERFORMANCE:
+- Runtime: 641 seconds (10.68 minutes)
+
+SOLUTION QUALITY:
+- Vertex retention ratio: 0.01
+- Clique retention ratio: 0.93
+- Density to size ratio: 35.02

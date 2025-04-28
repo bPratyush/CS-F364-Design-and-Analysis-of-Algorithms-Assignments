@@ -1,0 +1,3 @@
+Clique-Dense Subgraph Analysis (size=3) with 20 vertices
+Clique count (3-cliques): 1105
+Clique density: 55.25

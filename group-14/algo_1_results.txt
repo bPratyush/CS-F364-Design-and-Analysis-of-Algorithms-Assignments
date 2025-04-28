@@ -1,0 +1,17 @@
+------------------- DENSE SUBGRAPH ANALYSIS RESULTS -------------------
+Input graph: netscience.txt
+Algorithm: Clique-based dense subgraph detection
+
+PARAMETERS:
+- Clique size (h): 5
+- Original vertices: 1589
+- Original edges: 2742
+- Original 5-cliques: 15119
+RESULTS:
+- Dense subgraph vertices: 20 (1.26% of original)
+- Subgraph 5-cliques: 14008 (92.65% of original)
+- Clique density: 700.40
+- Density improvement factor: 73.61x
+
+PERFORMANCE:
+- Execution time: 645 seconds (10.75 minutes)
