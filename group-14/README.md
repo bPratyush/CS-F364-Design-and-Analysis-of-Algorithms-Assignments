@@ -54,4 +54,4 @@ The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh played a key role in designing and preparing the website for presenting the source code and results. He also significantly contributed to refining and optimizing both algorithms, ensuring improved efficiency and clarity.
 
-- ```Kavya Ganatra (2022A7PS0057H)```: 
+- ```Kavya Ganatra (2022A7PS0057H)```: Kavya made significant contributions to the project report and conducted a comprehensive theoretical study of the assigned research paper, strengthening the overall depth and quality of the work.
