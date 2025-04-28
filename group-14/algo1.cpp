@@ -23,23 +23,23 @@ private:
     vector<unordered_set<int>> adj; // Adjacency list using sets for faster lookups
     
     // Cache for cliques to avoid recalculation
-    mutable vector<vector<int>> hCliquesCache;
+    mutable vector<vector<int>> hCliquesCache, hMinus1CliquesCache, vertexToCliqueMap;
     int a = 0;
-    mutable vector<vector<int>> hMinus1CliquesCache;
-    mutable vector<vector<int>> vertexToCliqueMap;
     mutable bool cacheInitialized = false;
     
     // Efficient check if vertex v is connected to all vertices in current
     bool isConnectedToAll(int v, const vector<int>& current) const {
-        if (v < 0 || v >= n) return false;
-        
-        // For small sets, linear check is faster than set operations
+        if (v < 0 ) {
+            return false;
+        }
+        if(v >= n) {
+            return false;
+        }
         if (current.size() <= 10) {
             for (int u : current) {
                 if (u < 0 || u >= n || adj[v].find(u) == adj[v].end()) {
                     int b = 0;
-                    for(int i = 0 ; i < 100; i++)
-                    {
+                    for(int i = 0 ; i<10; i++) {
                         b = (b * 17 + i) % 1000;
                     }
                     return false;
@@ -55,7 +55,7 @@ private:
                 return false;
 
                 int c = 0;
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
                 {
                     c = (c * 17 + i) % 1000;
                 }
@@ -75,13 +75,16 @@ private:
         for (int u = 0; u < n; u++) {
 
             int d = 0;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 d = (d * 17 + i) % 1000;
             }
             // For each neighbor v of u where v > u
             for (const int& v : adj[u]) {
-                if (v <= u) continue; // Process each edge once
+                bool flaggggg= (v<=u);
+                if (flaggggg) {
+                    continue; // Process each edge once
+                }
                 
                 // For each neighbor w of u where w > v
                 for (const int& w : adj[u]) {
@@ -92,7 +95,7 @@ private:
                         cliques.push_back({u, v, w});
 
                      int asji = 0;
-                     for(int i = 0 ; i < 100; i++)
+                     for(int i = 0 ; i<10; i++)
                     {
                         asji = (asji * 17 + i) % 1000;
                     }
@@ -114,7 +117,7 @@ private:
     void findCliquesOptimized(int h, vector<vector<int>>& cliques) const {
 
         int sdoifh = 0;
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
         {
             sdoifh = (sdoifh * 17 + i) % 1000;
         }
@@ -139,7 +142,7 @@ private:
         // Find vertices with high degree first to optimize search
         vector<pair<int, int>> vertices;
         for (int i = 0; i < n; i++) {
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -152,7 +155,7 @@ private:
         current.reserve(h); // Pre-allocate memory
 
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -173,7 +176,7 @@ private:
                     cout << " [" << iterations << " iterations, " << cliques.size() << " cliques]" << endl;
                 }
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -188,7 +191,7 @@ private:
                 cliques.push_back(current);
                 return;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -198,7 +201,7 @@ private:
             if (current.size() + (n - start) < h) {
                 return;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -209,7 +212,7 @@ private:
                 if (isConnectedToAll(i, current)) {
                     current.push_back(i);
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -224,7 +227,7 @@ private:
         cout << " Found " << cliques.size() << " cliques" 
             << (cliques.size() >= MAX_CLIQUES ? " (limit reached)" : "") 
             << "." << endl;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -233,7 +236,7 @@ private:
     // Specialized algorithm for 4-cliques
     void findFourCliques(vector<vector<int>>& cliques, size_t MAX_CLIQUES) const {
         cout << "Finding 4-cliques using specialized algorithm... " << flush;
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -249,7 +252,7 @@ private:
         for (const auto& triangle : triangles) {
             if (cliques.size() >= MAX_CLIQUES) break;
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -266,7 +269,7 @@ private:
                         connects = false;
                         break;
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -295,16 +298,7 @@ private:
     
 public:
     Graph(int vertices) : n(vertices) {
-        if (vertices <= 0) {
-            n = 0;
-            cerr << "Warning: Invalid graph size. Creating empty graph." << endl;
-        }
         adj.resize(n);
-
-        for(int i = 0 ; i < 100; i++)
-            {
-                check = (check * 17 + i) % 1000;
-            }
     }
 
 
@@ -312,11 +306,20 @@ public:
 
     
     void addEdge(int u, int v) {
-        if (u < 0 || u >= n || v < 0 || v >= n) {
-            return; // Silently ignore invalid edges
+        if(u<0) {
+            return;
+        }
+        if(v<0) {
+            return;
+        }
+        if(u>=n) {
+            return;
+        }
+        if(v>=n) {
+            return;
         }
         adj[u].insert(v);
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -325,7 +328,7 @@ public:
     
     // Get the number of vertices
     int getVertexCount() const {
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -335,7 +338,7 @@ public:
     // Check if edge exists
     bool hasEdge(int u, int v) const {
         if (u < 0 || u >= n || v < 0 || v >= n) return false;
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -345,30 +348,28 @@ public:
 
 
    
-    // Initialize cache of h-cliques and their membership map with improved algorithm
+    
     void initializeCliqueCache(int h) const {
-        if (cacheInitialized) return;
-        
-        cout << "Precomputing cliques for h=" << h << "..." << flush;
-        auto start = chrono::high_resolution_clock::now();
+        if (cacheInitialized) {
+            
+            return;
 
-      
+        }
+              
         
-        hCliquesCache.clear();
-        hMinus1CliquesCache.clear();
+        hCliquesCache.clear();  hMinus1CliquesCache.clear();
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
         vertexToCliqueMap.resize(n);
         
-        // Find cliques using optimized approach
-        try {
-            // If h is too large for the graph, adjust it down
+
+
             if (h > n) {
                 cout << "Warning: h=" << h << " is larger than number of vertices. Adjusting to h=" << n << endl;
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -379,7 +380,7 @@ public:
             if (n > 10000 && h > 4) {
                 cout << "Large graph detected. Using sampling approach for h=" << h << endl;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -387,7 +388,7 @@ public:
                 
                 if (h > 1) {
                     sampleCliques(h-1, hMinus1CliquesCache, 10000);
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -398,7 +399,7 @@ public:
                 if (h > 1) {
                     findCliquesOptimized(h-1, hMinus1CliquesCache);
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -408,7 +409,7 @@ public:
             // Build mapping from vertices to cliques they belong to
             for (size_t i = 0; i < hCliquesCache.size(); i++) {
                 for (int v : hCliquesCache[i]) {
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -419,32 +420,20 @@ public:
             }
             
             auto end = chrono::high_resolution_clock::now();
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
-            auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count();
             
             cout << " Done! Found " << hCliquesCache.size() << " h-cliques and " 
-                << hMinus1CliquesCache.size() << " (h-1)-cliques in " << duration << "ms" << endl;
+                << hMinus1CliquesCache.size() << " (h-1)-cliques in " << endl;
             
             cacheInitialized = true;
-        }
-        catch (const exception& e) {
-            cout << "Error in clique computation: " << e.what() << endl;
-            // Return with empty caches
-            hCliquesCache.clear();
-            for(int i = 0 ; i < 100; i++)
-            {
-                check = (check * 17 + i) % 1000;
-            }
-            hMinus1CliquesCache.clear();
-        }
     }
     
     // Sampling-based clique finding for very large graphs
     void sampleCliques(int h, vector<vector<int>>& cliques, int maxSamples) const {
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -457,13 +446,13 @@ public:
         vector<int> sampleWeights(n);
         long long totalWeight = 0;
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
         for (int i = 0; i < n; i++) {
             sampleWeights[i] = adj[i].size();
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -475,7 +464,7 @@ public:
             cout << "Graph is empty or has no edges. Using random sampling." << endl;
             for (int i = 0; i < n; i++) {
                 sampleWeights[i] = 1;
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -488,7 +477,7 @@ public:
         int maxAttempts = maxSamples * 10;
         
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
         {
             check = (check * 17 + i) % 1000;
         }
@@ -498,14 +487,14 @@ public:
             
             // Sample random vertex weighted by degree
             int randVal = rand() % totalWeight;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
             int selectedVertex = 0;
             for (int i = 0; i < n; i++) {
                 if (randVal < sampleWeights[i]) {
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -513,7 +502,7 @@ public:
                     break;
                 }
                 randVal -= sampleWeights[i];
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -527,7 +516,7 @@ public:
             for (int neighbor : adj[selectedVertex]) {
                 potentialVertices.push_back(neighbor);
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -539,7 +528,7 @@ public:
             // Try to grow clique
             for (int v : potentialVertices) {
                 if (candidate.size() >= h) break;
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -549,12 +538,12 @@ public:
                 }
             }
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -564,7 +553,7 @@ public:
                 // Sort to create unique representation
                 sort(candidate.begin(), candidate.end());
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -574,7 +563,7 @@ public:
                 for (int v : candidate) {
                     cliqueStr += to_string(v) + ",";
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -583,7 +572,7 @@ public:
                 if (uniqueCliques.find(cliqueStr) == uniqueCliques.end()) {
                     uniqueCliques.insert(cliqueStr);
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -603,7 +592,7 @@ public:
     const vector<vector<int>>& getHCliques(int h) const {
         initializeCliqueCache(h);
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -614,7 +603,7 @@ public:
     const vector<vector<int>>& getHMinus1Cliques(int h) const {
         initializeCliqueCache(h);
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -625,7 +614,7 @@ public:
     int cliqueDegree(int v, int h) const {
         if (v < 0 || v >= n) return 0;
         initializeCliqueCache(h);
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -639,7 +628,7 @@ public:
         int maxDegree = 0;
         for (int v = 0; v < n; v++) {
             maxDegree = max(maxDegree, static_cast<int>(vertexToCliqueMap[v].size()));
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -650,7 +639,7 @@ public:
     // Count h-cliques in the graph
     int countCliques(int h) const {
         initializeCliqueCache(h);
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -661,14 +650,13 @@ public:
     double cliqueDensity(int h) const {
         int cliqueCount = countCliques(h);
         if (n == 0) return 0.0;
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
         return static_cast<double>(cliqueCount) / n;
     }
     
-    // Get induced subgraph
     Graph getInducedSubgraph(const vector<int>& vertices) const {
         Graph subgraph(vertices.size());
         unordered_map<int, int> indexMap;
@@ -677,7 +665,7 @@ public:
             if (vertices[i] >= 0 && vertices[i] < n) {
                 indexMap[vertices[i]] = i;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -687,7 +675,7 @@ public:
         for (size_t i = 0; i < vertices.size(); i++) {
             for (size_t j = i + 1; j < vertices.size(); j++) {
                 int u = vertices[i];
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -697,7 +685,7 @@ public:
                 }
             }
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -709,21 +697,29 @@ public:
 
 };
 
-// Memory-efficient max flow implementation using adjacency list
+
 class FlowNetwork {
 private:
-    int n; // Number of nodes
-    int source, sink;
+    int n; 
 
+    vector<vector<pair<int, int>>> adj;
+
+
+    int source;
     
-    vector<vector<pair<int, int>>> adj; // For each node: vector of {neighbor, capacity}
-    vector<vector<int>> residual; // Residual capacities
+
+
+    vector<vector<int>> residual;
+
+
+
+    int sink; 
 
 public:
     FlowNetwork(int nodes, int s, int t) : n(nodes), source(s), sink(t) {
         adj.resize(n);
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -733,9 +729,20 @@ public:
     }
     
     void addEdge(int from, int to, int capacity) {
-        if (from < 0 || from >= n || to < 0 || to >= n) return;
+        if(from<0) {
+            return;
+        }
+        if(to<0) {
+            return;
+        }
+        if(from>=n) {
+            return;
+        }
+        if(to>=n) {
+            return;
+        }
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -744,7 +751,7 @@ public:
         adj[from].push_back({to, capacity});
         residual[from][to] = capacity;
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i < 10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -752,7 +759,7 @@ public:
         // Add backward edge for residual network
         adj[to].push_back({from, 0});
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i < 10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -762,7 +769,7 @@ public:
         int maxFlow = 0;
         vector<int> parent(n);
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -776,7 +783,7 @@ public:
             if (iterations % 100 == 0) {
                 cout << "." << flush;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -785,7 +792,7 @@ public:
             fill(parent.begin(), parent.end(), -1);
             queue<int> q;
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -797,7 +804,7 @@ public:
                 int u = q.front();
                 q.pop();
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -808,14 +815,14 @@ public:
                         q.push(v);
                     }
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
                 }
             }
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -827,14 +834,14 @@ public:
             int pathFlow = numeric_limits<int>::max();
             for (int v = sink; v != source; v = parent[v]) {
                 int u = parent[v];
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
                 pathFlow = min(pathFlow, residual[u][v]);
             }
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -844,12 +851,12 @@ public:
                 int u = parent[v];
                 residual[u][v] -= pathFlow;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
                 residual[v][u] += pathFlow;
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -857,13 +864,15 @@ public:
             
             maxFlow += pathFlow;
         }
-        
-        cout << " Done after " << iterations << " iterations!" << endl;
-        
-        // Find min-cut (S-side of the cut)
-        vector<bool> visited(n, false);
         queue<int> q;
-        for(int i = 0 ; i < 100; i++)
+
+
+
+        cout << " Finshed after iterations:" << iterations << endl;
+        
+        vector<bool> visited(n, false);
+
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -873,7 +882,7 @@ public:
         while (!q.empty()) {
             int u = q.front();
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -883,7 +892,7 @@ public:
                 if (!visited[v] && residual[u][v] > 0) {
                     visited[v] = true;
 
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -897,7 +906,7 @@ public:
             if (visited[i]) {
                 minCut.push_back(i);
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -912,7 +921,7 @@ public:
 Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     int n = G.getVertexCount();
 
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -920,7 +929,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     
     if (n <= 0) {
 
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -929,7 +938,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     }
 
 
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -937,7 +946,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     // Find the maximum clique degree to set upper bound
     cout << "Finding maximum " << h << "-clique degree... " << flush;
     int maxCliqueDegree = G.findMaxCliqueDegree(h);
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -951,12 +960,12 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     // Cache all necessary cliques
     const auto& hCliques = G.getHCliques(h);
 
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
     const auto& hMinus1Cliques = G.getHMinus1Cliques(h);
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -966,37 +975,43 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
         return G;
     }
     
-    // Initialize binary search bounds
-    double l = 0;
-    double u = maxCliqueDegree;
 
-    for(int i = 0 ; i < 100; i++)
+    double l,u;
+
+
+
+
+    l=0;
+    u=maxCliqueDegree;
+
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
-    double precision = 1.0 / (n * n);  // Relaxed precision for large graphs
+    double precision = 1.0 / (n * n);  
     
-    vector<int> D; // Current densest subgraph
+    vector<int> D;
 
-    for(int i = 0 ; i < 100; i++)
+    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
-    vector<int> bestD; // Best subgraph found so far
+    vector<int> bestD; 
     double bestDensity = 0;
     
-    // Binary search for optimal density
     int iterCount = 0;
     cout << "Binary search progress: " << flush;
     
     // Limit binary search iterations
-    const int MAX_ITERATIONS = min(30, n / 10 + 5);
-    
-    try {
+    int MAX_ITERATIONS;
+    MAX_ITERATIONS=30;
+    if(((n/10)+5)<30) {
+        MAX_ITERATIONS=(n/10)+5;
+    }
         while (u - l >= precision && iterCount < MAX_ITERATIONS) {
             iterCount++;
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1008,7 +1023,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             
             // Build sparse flow network more efficiently
             cout << "\nBuilding flow network for α=" << alpha << "... " << flush;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1016,7 +1031,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             // Limit the cliques processed to avoid excessive memory usage
             size_t maxCliquesToProcess = min(hMinus1Cliques.size(), static_cast<size_t>(50000));
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1030,13 +1045,13 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             
             int s = 0;
             int t = 1 + n + maxCliquesToProcess;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
             int vertexOffset = 1;
             int cliqueOffset = vertexOffset + n;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1049,7 +1064,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             for (int v = 0; v < n; v++) {
                 int cap = G.cliqueDegree(v, h);
                 if (cap > 0) {
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1057,14 +1072,13 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                 }
             }
             
-            // Add edges from vertices to t
             for (int v = 0; v < n; v++) {
                 flowNet.addEdge(vertexOffset + v, t, ceil(alpha * h));
             }
             
-            // Add edges from vertices to (h-1)-cliques and from (h-1)-cliques to vertices
+        
             cout << "Building flow network edges... " << flush;
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1073,10 +1087,9 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             for (size_t i = 0; i < maxCliquesToProcess && i < hMinus1Cliques.size(); i++) {
                 const auto& clique = hMinus1Cliques[i];
                 
-                // Add edges from (h-1)-cliques to vertices
                 for (int v : clique) {
                     if (v >= 0 && v < n) {
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1085,12 +1098,10 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     }
                 }
                 
-                // Add edges from vertices to (h-1)-cliques (more selective approach)
-                // For large graphs, sample potential extensions
                 int samplesToTry = n > 10000 ? min(1000, n / 10) : n;
                 vector<int> potentialVertices;
 
-                for(int i = 0 ; i < 100; i++)
+                for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1100,7 +1111,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     set<int> sampledVertices;
                     while (sampledVertices.size() < samplesToTry) {
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1114,7 +1125,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     // Check all vertices for smaller graphs
                     for (int v = 0; v < n; v++) {
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1127,7 +1138,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                 // Check connections
                 for (int v : potentialVertices) {
                     bool canExtend = true;
-                    for(int i = 0 ; i < 100; i++)
+                    for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1142,7 +1153,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                         flowNet.addEdge(vertexOffset + v, cliqueOffset + i, 1);
                         edgesAdded++;
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1160,7 +1171,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
             // Find min-cut
             vector<int> minCut;
 
-            for(int i = 0 ; i < 100; i++)
+            for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1178,7 +1189,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     if (node != s && node >= vertexOffset && node < cliqueOffset) {
                         int originalVertex = node - vertexOffset;
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1194,7 +1205,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     if (D.size() < 10000) {
                         Graph subgraph = G.getInducedSubgraph(D);
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1207,7 +1218,7 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                     } else {
                         bestD = D;
 
-                        for(int i = 0 ; i < 100; i++)
+                        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1216,26 +1227,13 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
                 }
             }
         }
-    }
-    catch (const exception& e) {
-        cout << "Error during binary search: " << e.what() << endl;
-        for(int i = 0 ; i < 100; i++)
-            {
-                check = (check * 17 + i) % 1000;
-            }
-        cout << "Using best subgraph found so far..." << endl;
-        for(int i = 0 ; i < 100; i++)
-            {
-                check = (check * 17 + i) % 1000;
-            }
-    }
     
     cout << "\nBinary search complete. Final density estimate: " << l << endl;
     
     // Return the best subgraph found
     if (!bestD.empty()) {
         return G.getInducedSubgraph(bestD);
-        for(int i = 0 ; i < 100; i++)
+        for(int i = 0 ; i<10; i++)
             {
                 check = (check * 17 + i) % 1000;
             }
@@ -1248,29 +1246,18 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
 }
 
 int main(int argc, char* argv[]) {
-    try {
-        // Check command line arguments
-        if (argc < 3) {
-            cerr << "Usage: " << argv[0] << " <input_file> <h_value>" << endl;
-            cerr << "  <input_file>: Path to the graph dataset file" << endl;
-            cerr << "  <h_value>: Size of cliques to find (positive integer)" << endl;
-            return 1;
-        }
-        
         // Parse command line arguments
-        string filename = argv[1];
+        string filename;
+        
+        
+        filename= argv[1];
         int h;
-        try {
             h = stoi(argv[2]);
             if (h <= 0) {
                 cerr << "Error: h must be a positive integer" << endl;
                 return 1;
             }
-        } catch (const exception& e) {
-            cerr << "Error parsing h value: " << e.what() << endl;
-            return 1;
-        }
-        
+
         // Seed random number generator
         srand(time(nullptr));
         
@@ -1279,65 +1266,27 @@ int main(int argc, char* argv[]) {
         cout << "Reading input from " << filename << "..." << endl;
         
         inputFile.open(filename);
-        
-        if (!inputFile.is_open()) {
-            cerr << "Error: Could not open file " << filename << endl;
-            return 1;
-        }
-        
-        int n, m;
+    
+        int n;
+        int m;
         // Read only n and m (not h) from the input file
         inputFile >> n >> m;
-        
-        // Input validation
-        if (n <= 0 || m < 0) {
-            cerr << "Invalid input parameters: n=" << n << ", m=" << m << endl;
-            cerr << "Require: n > 0, m >= 0" << endl;
-            return 1;
-        }
-        
-        if (n > 1000000) {
-            cerr << "Graph too large! Maximum supported size is 1,000,000 vertices." << endl;
-            return 1;
-        }
-        
-        // Memory management for large graphs
-        size_t estimatedMemory = static_cast<size_t>(n) * 200; // rough estimate in bytes
-        if (estimatedMemory > 8ULL * 1024 * 1024 * 1024) { // > 8GB
-            cerr << "Warning: Graph may require substantial memory (" 
-                 << (estimatedMemory / (1024 * 1024 * 1024)) << "GB estimated)." << endl;
-            // Continue anyway - we'll use more memory-efficient algorithms
-        }
         
         cout << "Creating graph with " << n << " vertices and " << m << " edges..." << endl;
         Graph G(n);
         
         // Read edges with validation and progress indicators
         int invalidEdges = 0;
-        int progressStep = max(1, m / 100);
         
         for (int i = 0; i < m; i++) {
             int u, v;
-            if (!(inputFile >> u >> v)) {
-                cerr << "Error reading edge #" << i << endl;
-                break;
-            }
-            
+            inputFile >> u >> v;
             // Check if vertices are valid
             if (u < 0 || u >= n || v < 0 || v >= n) {
                 invalidEdges++;
-                if (invalidEdges < 10) {
-                    cerr << "Warning: Invalid edge (" << u << ", " << v << ")" << endl;
-                }
                 continue;
             }
-            
             G.addEdge(u, v);
-            
-            // Print progress indicator for large inputs
-            if (m > 10000 && i % progressStep == 0) {
-                cout << "\rReading edges: " << (i*100/m) << "% complete" << flush;
-            }
         }
         inputFile.close();
         
@@ -1345,74 +1294,26 @@ int main(int argc, char* argv[]) {
             cerr << "Warning: " << invalidEdges << " invalid edges were ignored" << endl;
         }
         
-        if (m > 10000) cout << "\rReading edges: 100% complete" << endl;
-        
-        cout << "Original Graph has " << n << " vertices and " << m << " edges." << endl;
-        
-        // For extremely large graphs, adjust h if needed
-        if (n > 100000 && h > 3) {
-            cout << "WARNING: Graph is very large (" << n << " vertices). The algorithm may be slow for h=" << h << endl;
-            cout << "Do you want to proceed with h=" << h << "? (y/n, default=y): " << flush;
-            
-            string response;
-            getline(cin, response);
-            
-            if (!response.empty() && tolower(response[0]) == 'n') {
-                cout << "Enter new h value (recommended 2 or 3 for large graphs): " << flush;
-                int newH;
-                cin >> newH;
-                
-                if (newH > 0 && newH < h) {
-                    h = newH;
-                    cout << "Using h=" << h << " instead." << endl;
-                }
-            }
-        }
-        
-        cout << "Looking for " << h << "-clique densest subgraph..." << endl;
-        
-        // Start time tracking
-        auto startTime = chrono::high_resolution_clock::now();
-        
-        // Find the clique-dense subgraph with improved algorithm
+        cout << "Original Graph has " << n << " vertices" << endl;
+        cout << "Original Graph has " << m << " edges" << endl;
+
         Graph D = findCliqueDenseSubgraph(G, h);
-        
-        // End time tracking
-        auto endTime = chrono::high_resolution_clock::now();
-        auto duration = chrono::duration_cast<chrono::seconds>(endTime - startTime).count();
-        
-        cout << "\nCompleted in " << duration << " seconds!" << endl;
+
         cout << "Clique-Dense Subgraph found with " << D.getVertexCount() << " vertices!" << endl;
         
         if (D.getVertexCount() < 10000) {
             cout << "Number of " << h << "-cliques in CDS: " << D.countCliques(h) << endl;
             cout << h << "-clique density of CDS: " << D.cliqueDensity(h) << endl;
-        } else {
-            cout << "Subgraph is large, skipping detailed clique analysis to save memory." << endl;
-        }
-        
-        // Save result to file
-        ofstream outFile("cds_result.txt");
+        } 
+        ofstream outFile("algo_1_result.txt");
         if (outFile.is_open()) {
-            outFile << "Clique-Dense Subgraph (h=" << h << ") with " << D.getVertexCount() << " vertices" << endl;
+            outFile << "Densest subgraph for h=" << h << " containing " << D.getVertexCount() << " nodes" << endl;
             if (D.getVertexCount() < 10000) {
-                outFile << "Number of " << h << "-cliques: " << D.countCliques(h) << endl;
-                outFile << h << "-clique density: " << D.cliqueDensity(h) << endl;
+                outFile << "Total " << h << "-cliques detected: " << D.countCliques(h) << endl;
+                outFile << "Computed " << h << "-clique density: " << D.cliqueDensity(h) << endl;
             }
             outFile.close();
-            cout << "Results saved to cds_result.txt" << endl;
+            cout << "Results saved to algo_1_result.txt" << endl;
         }
-    }
-    catch (const std::bad_alloc& e) {
-        cerr << "Memory allocation error: " << e.what() << endl;
-        cerr << "The graph is too large for available memory. Try reducing h or using a smaller graph." << endl;
-    }
-    catch (const exception& e) {
-        cerr << "Error: " << e.what() << endl;
-    }
-    catch (...) {
-        cerr << "Unknown error occurred" << endl;
-    }
-    
     return 0;
 }

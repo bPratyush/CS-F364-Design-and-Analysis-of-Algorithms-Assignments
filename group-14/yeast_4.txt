@@ -1,0 +1,3 @@
+Densest subgraph for h=4 containing 7 nodes
+Total 4-cliques detected: 7
+Computed 4-clique density: 0.57143

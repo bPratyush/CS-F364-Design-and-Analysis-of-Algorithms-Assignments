@@ -1,0 +1,3 @@
+Densest subgraph for h=2 containing 7 nodes
+Total 2-cliques detected: 19
+Computed 2-clique density: 2.71429

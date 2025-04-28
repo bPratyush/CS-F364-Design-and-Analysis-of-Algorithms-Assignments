@@ -7,7 +7,7 @@ The repository contains source code for the two algorithms implemented mentioned
 
 ## Webpage Link
 
-[DAA Assignment 2](***URL to be added***)
+[DAA Assignment 2](https://glittery-croissant-0480a0.netlify.app/)
 
 
 ## Dataset Preparation
@@ -40,7 +40,7 @@ For execution, run the following command:
 
 ### Output File
 
-The Exact Algorithm stores results in ```cds_result.txt``` file
+The Exact Algorithm stores results in ```algo_1_result.txt``` file
 The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 
@@ -50,7 +50,7 @@ The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 - ```Kalash Bhattad (2022A7PS0065H)```: Kalash was deeply involved in the extensive implementation of the Exact algorithm, meticulously resolving bugs and ensuring its correctness. He also carefully prepared the AS-733 dataset and contributed meaningfully to the preparation of the final report.
 
-- ```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey has conducted comprehensive implementation of the CoreExact Algorithm as mentioned in the paper. He has also worked on curating relevant datasets (AS-733, NetScience and CA-HepTh), collecting results and benchmarking with the paper's results. He has also assisted in the preparation of the README file.
+- ```RVS Aashrey Kumar (2022A7PS0160H)```: Aashrey has conducted comprehensive implementation of the CoreExact Algorithm as mentioned in the paper. He has also worked on curating relevant datasets (AS-733, NetScience and CA-HepTh), collecting results and benchmarking with the paper's results.
 
 - ```Venkata Saketh Dakuri (2022A7PS0056H)```: Saketh played a key role in designing and preparing the website for presenting the source code and results. He also significantly contributed to refining and optimizing both algorithms, ensuring improved efficiency and clarity.
 

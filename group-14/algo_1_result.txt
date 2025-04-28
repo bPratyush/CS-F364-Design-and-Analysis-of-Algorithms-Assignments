@@ -1,0 +1,3 @@
+Densest subgraph for h=5 containing 7 nodes
+Total 5-cliques detected: 7
+Computed 5-clique density: 1
