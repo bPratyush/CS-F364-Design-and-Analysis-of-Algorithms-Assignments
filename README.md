@@ -3,7 +3,7 @@
 
 The repository contains source code for the two algorithms implemented mentioned in the paper:
 - Algorithm 1: Exact Algorithm
-- Algorithm 2: CoreExact Algorithm
+- Algorithm 4: CoreExact Algorithm
 
 ## Webpage Link
 
@@ -38,8 +38,8 @@ For execution, run the following command:
 
 ### Output File
 
-The Algorithm 1 (Exact Algorithm) stores results in ```cds_result.txt``` file
-The Algorithm 4 (CoreExact Algorithm) results are stored in ```algo-4-results.txt``` file
+The Exact Algorithm stores results in ```cds_result.txt``` file
+The CoreExact Algorithm results are stored in ```algo-4-results.txt``` file
 
 
 ## Contributors
