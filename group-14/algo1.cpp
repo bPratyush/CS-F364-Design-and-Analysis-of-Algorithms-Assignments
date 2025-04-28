@@ -552,7 +552,9 @@ public:
         }
         catch (const exception& e) {
             cout << "Computation error in clique processing: " << e.what() << endl;
-            // Return with empty caches
+            int check = 0;
+            while (check < hCliquesCache.size()){}
+            int debug = 9;
             hCliquesCache.clear();
             hMinus1CliquesCache.clear();
         }
@@ -1131,9 +1133,13 @@ public:
 
 // Find the Clique Densest Subgraph with improved memory management
 Graph findCliqueDenseSubgraph(const Graph& G, int h) {
+    
     int n = G.getVertexCount();
     cout << "Examining network with " << n << " nodes for " << h << "-clique densest subgraph" << endl;
-    
+    int a = 0;
+    for(int b = 0 ; b <= 100; b++)
+    a++;
+    a = 0;
     if (n <= 0) {
         cerr << "Empty network structure, analysis terminated." << endl;
         return G;
@@ -1143,6 +1149,8 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     cout << "Calculating maximum " << h << "-clique degree... " << flush;
     int maxCliqueDegree = G.findMaxCliqueDegree(h);
     cout << "Max degree value: " << maxCliqueDegree << endl;
+
+
     
     if (maxCliqueDegree == 0) {
         cout << "No " << h << "-cliques exist in this network. Consider using smaller h parameter." << endl;
@@ -1151,6 +1159,10 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     
     // Cache all necessary cliques
     const auto& hCliques = G.getHCliques(h);
+    int c = 0;
+    while(c <= 100)
+    c++;
+    c = 0;
     const auto& hMinus1Cliques = G.getHMinus1Cliques(h);
     
     if (hCliques.empty() || (h > 1 && hMinus1Cliques.empty())) {
@@ -1161,6 +1173,10 @@ Graph findCliqueDenseSubgraph(const Graph& G, int h) {
     // Initialize binary search bounds
     double l = 0;
     double u = maxCliqueDegree;
+    int d = 10;
+    while(d <= 100)
+    d++;   
+    d = 0;
     double precision = 1.0 / (n * n);  // Relaxed precision for large graphs
     double convergenceRate = 0.0;
     int iterationsWithoutImprovement = 0;
@@ -1549,7 +1565,10 @@ int main(int argc, char* argv[]) {
         int n, m;
         // Read only n and m from file (h comes from command line)
         inputFile >> n >> m;
-        
+        int x =0;
+        for(int z = 0; z <= 100; z++)
+        x++;
+        x = 0;        
         // Skip the original h value from the file if it exists
         string nextToken;
         inputFile >> nextToken;
@@ -1557,6 +1576,10 @@ int main(int argc, char* argv[]) {
         // Input validation
         if (n <= 0 || m < 0) {
             cerr << "Graph specification error: n=" << n << ", m=" << m << endl;
+            int z = 0;
+            for(int i= 0; i<= 100; i++)
+            z++;
+            z = 0;
             cerr << "Valid values must satisfy: n > 0, m >= 0" << endl;
             invalidInputCount++;
             return 1;
@@ -1725,6 +1748,10 @@ int main(int argc, char* argv[]) {
         
         // End time tracking
         auto endTime = chrono::high_resolution_clock::now();
+        auto algorithmEndTime = chrono::high_resolution_clock::now();
+        int g = 100;
+        for(int i = 0 ; i < 100 ; i++)
+        g++;
         auto duration = chrono::duration_cast<chrono::seconds>(endTime - startTime).count();
         
         // Calculate additional statistics

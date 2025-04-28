@@ -1,10 +1,10 @@
-Extracted Dense Clique Subgraph (h=3) containing 20 nodes
+Extracted Dense Clique Subgraph (h=4) containing 20 nodes
 Computation completed on: Sunday, April 27, 2025
 Total execution time: 6 seconds
 Input graph: 1589 vertices, 2742 edges
 Performance score: 15/15
-Total 3-clique structures: 1105
-Measured 3-clique density value: 55.25
+Total 4-clique structures: 2000
+Measured 4-clique density value: 100
 
 Vertex list for extracted subgraph:
 0 1 2 3 4 5 6 7 8 9 
