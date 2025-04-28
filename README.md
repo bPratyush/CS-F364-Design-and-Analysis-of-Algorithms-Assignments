@@ -24,10 +24,12 @@ All datasets are provided in ```.txt``` format. No extensive preprocessing has b
 - The codes written have been supported and verified for Linux Ubuntu distribution and MacOS Operating Systems
 
 ### Compilation
-For compiling ```src.cpp``` stored in ```dir``` directory with C++ version 17, run the following command
+For compiling ```src.cpp``` stored in ```dir``` directory with C++ version 17 and using clang++ compiler, run the following command
  ```bash
 clang++ -std=c++17 dir/src.cpp -o src
 ```
+- For using ```g++``` compiler, replace ```clang++``` with ```g++```
+- For changing C++ version, either change the value in ```-std=c++17``` or remove for default version execution present in the system
 
 ### Execution
 For execution, run the following command:
