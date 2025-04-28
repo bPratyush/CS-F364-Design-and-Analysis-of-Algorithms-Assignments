@@ -1,0 +1,3 @@
+Clique-Dense Subgraph (h=4) with 20 vertices
+Number of 4-cliques: 2000
+4-clique density: 100
