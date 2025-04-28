@@ -1,5 +1,5 @@
 
-# CS F364 Design and Analysis of Algorithms Assignment I
+# CS F364 Design and Analysis of Algorithms Assignment II
 
 The repository contains source code for the two algorithms implemented:
 - Algorithm 1: CoreExact
@@ -7,7 +7,7 @@ The repository contains source code for the two algorithms implemented:
 
 ## Webpage Link
 
-[Maximal Cliques Algorithms](***URL to be added***)
+[DAA Assignment 2](***URL to be added***)
 
 
 ## Dataset Preparation
