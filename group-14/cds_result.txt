@@ -1,6 +1,6 @@
 Extracted Dense Clique Subgraph (h=2) containing 20 nodes
 Computation completed on: Sunday, April 27, 2025
-Total execution time: 4 seconds
+Total execution time: 3 seconds
 Input graph: 1589 vertices, 2742 edges
 Performance score: 15/15
 Total 2-clique structures: 188
